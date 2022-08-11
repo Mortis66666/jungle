@@ -1,0 +1,1 @@
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Dou_Shou_Qi_board.svg/350px-Dou_Shou_Qi_board.svg.png)
