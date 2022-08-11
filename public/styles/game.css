@@ -1,0 +1,15 @@
+:root {
+    --length: 75px;
+    --width: 7;
+    --height: 9;
+}
+
+#board {
+    width: calc(var(--length) * var(--width));
+    height: calc(var(--length) * var(--height));
+    border: 5px solid black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
