@@ -37,7 +37,7 @@ function setup() {
         grid.push(Array(7).fill(null));
     }
 
-    for (let row of board) {
+    for (let row of board.reverse()) {
         let pieces = [];
         for (let c of row.split("").reverse().join("")) {
             if (+c) {
