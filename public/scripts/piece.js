@@ -26,41 +26,38 @@ class Piece {
 
         this.val = pieceVals.findIndex(e => e == type);
         this.selected = false;
-        this.name = pieceName[type]
+        this.name = pieceName[type];
     }
 
-    canGo(x, y) {
-        return false;
-    }
-
+    
     draw() {
-        let vx = this.drawX - this.x * gridLength;
-        let vy = this.drawY - this.y * gridLength;
-
-        if (!(vx * vy)) {
+        let vx = this.x * gridLength - this.drawX;
+        let vy = this.y * gridLength - this.drawY;
+        
+        if (vx == 0 && vy == 0) {
             // Not moving
             this.mx = 0;
             this.my = 0;
-        }
-
-        else if (!(this.mx * this.my)) {
+        } else if (this.mx == 0 && this.my == 0) {
             // Just started to move
-            this.mx = vx;
-            this.my = vy;
+            this.mx = vx / 30;
+            this.my = vy / 30;
         }
 
         this.drawX += this.mx;
         this.drawY += this.my;
-
-        noStroke();
+        
+        stroke(0);
+        strokeWeight(this.selected * 5);
         fill(this.color);
         ellipse(
             this.drawX + gridLength * .5,
             this.drawY + gridLength * .5,
             gridLength * .7
         );
-
-
+            
+            
+        noStroke();
         fill(255);
         text(
             this.name,
@@ -69,13 +66,54 @@ class Piece {
         );
     }
 
-    canEat(piece) {
-        if (this.type == "e" && piece.type == "m") {
+    canGo(x, y) {
+        if (isRiver(x, y) && this.type != "m") {
             return false;
-        } else if (this.type == "m" && piece.type == "e") {
-            return true;
+        }
+
+        if (this.type == "s" || this.type == "t") {
+            if (x == this.x) {
+                for (let i = Math.min(y, this.y) + 1; i < Math.max(y, this.y); i++) {
+                    let p = grid[i][x];
+                    console.log(!isRiver(i, y) || (p && p.color != this.color));
+                    if (!isRiver(x, i) || (p && p.color != this.color)) {
+                        return false;
+                    }
+                }
+                return true;
+            } else if (y == this.y) {
+                for (let i = Math.min(x, this.x) + 1; i < Math.max(x, this.x); i++) {
+                    let p = grid[y][i];
+                    if (!isRiver(i, y) || (p && p.color != this.color)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+        return Math.abs(x - this.x) + Math.abs(y - this.y) == 1;
+    }
+
+
+    canEat(piece) {
+        if (this.color == piece.color) {
+            return false;
+        }
+        else if (this.type == "e" && piece.type == "m") {
+            return false;
+        } else if (this.type == "m") {
+            if (!isRiver(this.x, this.y)) {
+                return "me".includes(piece.type);
+            }
+            return false;
         } else {
             return this.val >= piece.val;
         }
+    }
+
+    moveTo(x, y) {
+        this.x = x;
+        this.y = y;
     }
 }

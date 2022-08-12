@@ -1,8 +1,14 @@
-const gridWidth = 7,
-    gridHeight = 9,
-    gridLength = 75,
-    grid = [];
+const gridWidth = 7;
+const gridHeight = 9;
+const gridLength = 75;
+const grid = [];
+const canvasWidth = gridWidth * gridLength;
+const canvasHeight = gridHeight * gridLength;
 
+
+var selected = null;
+var redsTurn = true;
+var infoMsg;
 
 function setup() {
     let canvas = createCanvas(
@@ -53,10 +59,13 @@ function setup() {
     }
 
     textSize(gridLength * .5);
+    infoMsg = document.querySelector("h1");
 }
 
 
 function draw() {
+    infoMsg.innerHTML = (redsTurn ? "Red" : "Blue") + "'s turn";
+
     clear();
     drawGridLines();
     drawRiver();
@@ -66,12 +75,53 @@ function draw() {
             piece && piece.draw();
         }
     }
+}
 
+function mouseClicked() {
+    if (mouseX && mouseY && mouseX < canvasWidth && mouseY < canvasHeight) {
+        if (selected)
+            selected.selected = false;
+
+        let x = Math.floor(mouseX / gridLength);
+        let y = Math.floor(mouseY / gridLength);
+
+        let piece = grid[y][x];
+
+        console.log(piece);
+
+        if (selected) {
+            if (selected.canGo(x, y) && (!piece || selected.canEat(piece))) {
+                // Eat piece
+                grid[selected.y][selected.x] = null;
+                selected.moveTo(x, y);
+                grid[y][x] = selected;
+                redsTurn = !redsTurn;
+                console.log("moved to %d, %d", x, y);
+            }
+            selected = null;
+
+        } else if (piece && ["blue", "red"][redsTurn ? 1:0] != piece.color) {
+            // Invalid selection
+            console.log(redsTurn, 'invalid');
+        } else {
+            // Select piece
+            piece.selected = true;
+            selected = piece;
+        }
+
+
+    } else {
+        if (selected)
+            selected.selected = false;
+
+        selected = null;
+    }
 }
 
 
 function drawGridLines() {
     stroke(0);
+    strokeWeight(1);
     for (let x = 1; x < gridWidth; x++) {
         line(
             x * gridLength, 0,
