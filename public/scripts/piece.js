@@ -75,7 +75,6 @@ class Piece {
             if (x == this.x) {
                 for (let i = Math.min(y, this.y) + 1; i < Math.max(y, this.y); i++) {
                     let p = grid[i][x];
-                    console.log(!isRiver(i, y) || (p && p.color != this.color));
                     if (!isRiver(x, i) || (p && p.color != this.color)) {
                         return false;
                     }
@@ -115,5 +114,22 @@ class Piece {
     moveTo(x, y) {
         this.x = x;
         this.y = y;
+    }
+
+    drawLegalMoves() {
+        fill(0, 0, 0, 40);
+        noStroke();
+        
+        for (let x = 0; x < gridWidth; x++) {
+            for (let y = 0; y < gridHeight; y++) {
+                if (this.canGo(x, y) && (!grid[y][x] || this.canEat(grid[y][x]))) {
+                    circle(
+                        (x + .5) * gridLength,
+                        (y + .5) * gridLength,
+                        gridLength * .4
+                    );
+                }
+            }
+        }
     }
 }

@@ -75,6 +75,8 @@ function draw() {
             piece && piece.draw();
         }
     }
+
+    selected && selected.drawLegalMoves();
 }
 
 function mouseClicked() {
@@ -87,8 +89,6 @@ function mouseClicked() {
 
         let piece = grid[y][x];
 
-        console.log(piece);
-
         if (selected) {
             if (selected.canGo(x, y) && (!piece || selected.canEat(piece))) {
                 // Eat piece
@@ -96,7 +96,6 @@ function mouseClicked() {
                 selected.moveTo(x, y);
                 grid[y][x] = selected;
                 redsTurn = !redsTurn;
-                console.log("moved to %d, %d", x, y);
             }
             selected = null;
 
