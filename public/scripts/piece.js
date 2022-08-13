@@ -29,11 +29,11 @@ class Piece {
         this.name = pieceName[type];
     }
 
-    
+
     draw() {
         let vx = this.x * gridLength - this.drawX;
         let vy = this.y * gridLength - this.drawY;
-        
+
         if (vx == 0 && vy == 0) {
             // Not moving
             this.mx = 0;
@@ -46,7 +46,7 @@ class Piece {
 
         this.drawX += this.mx;
         this.drawY += this.my;
-        
+
         stroke(0);
         strokeWeight(this.selected * 5);
         fill(this.color);
@@ -55,8 +55,8 @@ class Piece {
             this.drawY + gridLength * .5,
             gridLength * .7
         );
-            
-            
+
+
         noStroke();
         fill(255);
         text(
@@ -98,8 +98,9 @@ class Piece {
     canEat(piece) {
         if (this.color == piece.color) {
             return false;
-        }
-        else if (this.type == "e" && piece.type == "m") {
+        } else if (isTrap(piece.x, piece.y)) {
+            return true;
+        } else if (this.type == "e" && piece.type == "m") {
             return false;
         } else if (this.type == "m") {
             if (!isRiver(this.x, this.y)) {
@@ -119,7 +120,7 @@ class Piece {
     drawLegalMoves() {
         fill(0, 0, 0, 40);
         noStroke();
-        
+
         for (let x = 0; x < gridWidth; x++) {
             for (let y = 0; y < gridHeight; y++) {
                 if (this.canGo(x, y) && (!grid[y][x] || this.canEat(grid[y][x]))) {

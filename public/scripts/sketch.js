@@ -4,6 +4,7 @@ const gridLength = 75;
 const grid = [];
 const canvasWidth = gridWidth * gridLength;
 const canvasHeight = gridHeight * gridLength;
+const traps = [];
 
 
 var selected = null;
@@ -58,6 +59,14 @@ function setup() {
         grid.push(pieces);
     }
 
+    for (let x = 0; x < gridWidth; x++) {
+        for (let y = 0; y < gridHeight; y++) {
+            if (isTrap(x, y)) {
+                traps.push([x, y]);
+            }
+        }
+    }
+
     textSize(gridLength * .5);
     infoMsg = document.querySelector("h1");
 }
@@ -69,6 +78,7 @@ function draw() {
     clear();
     drawGridLines();
     drawRiver();
+    drawTrap();
 
     for (let row of grid) {
         for (let piece of row) {
@@ -102,7 +112,7 @@ function mouseClicked() {
         } else if (piece && ["blue", "red"][redsTurn ? 1:0] != piece.color) {
             // Invalid selection
             console.log(redsTurn, 'invalid');
-        } else {
+        } else if (piece) {
             // Select piece
             piece.selected = true;
             selected = piece;
@@ -149,12 +159,24 @@ function drawRiver() {
     );
 }
 
+function drawTrap() {
+    for (let [x, y] of traps) {
+        fill((y > 6) * 255, 0, (y < 2) * 255);
+        text(
+            "陷阱",
+            x * gridLength,
+            (y + .7) * gridLength
+        )
+    }
+}
+
 function isRiver(x, y) {
     return inRange(3, 5, y) && [1, 2, 4, 5].includes(x);
 }
 
 function isTrap(x, y) {
-
+    let xabs = Math.abs(x - 3);
+    return [xabs + y, xabs + 8 - y].includes(1);
 }
 
 function inRange(min, max, n) {
