@@ -5,6 +5,10 @@ const grid = [];
 const canvasWidth = gridWidth * gridLength;
 const canvasHeight = gridHeight * gridLength;
 const traps = [];
+const dens = [
+    [3, 0],
+    [3, 8]
+];
 
 
 var selected = null;
@@ -79,6 +83,7 @@ function draw() {
     drawGridLines();
     drawRiver();
     drawTrap();
+    drawDen();
 
     for (let row of grid) {
         for (let piece of row) {
@@ -87,6 +92,31 @@ function draw() {
     }
 
     selected && selected.drawLegalMoves();
+
+    let red = 0;
+    let blue = 0;
+
+    for (let row of grid) {
+        for (let piece of row) {
+            if (piece) {
+                if (piece.color == "red") {
+                    red++;
+                } else {
+                    blue++;
+                }
+            }
+        }
+    }
+
+    if (!red) {
+        setTimeout(() => {
+            alert("Blue won! Reload page to play again");
+        }, 500);
+    } else if (!blue) {
+        setTimeout(() => {
+            alert("Red won! Reload page to play again");
+        }, 500);
+    }
 }
 
 function mouseClicked() {
@@ -106,6 +136,12 @@ function mouseClicked() {
                 selected.moveTo(x, y);
                 grid[y][x] = selected;
                 redsTurn = !redsTurn;
+
+                if (isDen(x, y) && y == redsTurn * 8) {
+                    setTimeout(() => {
+                        alert((redsTurn ? "Blue" : "Red") + " won! Reload page to play again");
+                    }, 500);
+                }
             }
             selected = null;
 
@@ -170,6 +206,17 @@ function drawTrap() {
     }
 }
 
+function drawDen() {
+    for (let [x, y] of dens) {
+        fill((y > 6) * 255, 0, (y < 2) * 255);
+        text(
+            "兽穴",
+            x * gridLength,
+            (y + .7) * gridLength
+        )
+    }
+}
+
 function isRiver(x, y) {
     return inRange(3, 5, y) && [1, 2, 4, 5].includes(x);
 }
@@ -177,6 +224,10 @@ function isRiver(x, y) {
 function isTrap(x, y) {
     let xabs = Math.abs(x - 3);
     return [xabs + y, xabs + 8 - y].includes(1);
+}
+
+function isDen(x, y) {
+    return x == 3 && [0, 8].includes(y);
 }
 
 function inRange(min, max, n) {
