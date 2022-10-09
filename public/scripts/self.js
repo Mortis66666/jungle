@@ -9,19 +9,11 @@ const dens = [
     [3, 0],
     [3, 8]
 ];
-const board = [
-    "s5t",
-    "1d3c1",
-    "m1l1w1e"
-];
+
 
 var selected = null;
-var turn = false;
+var redsTurn = true;
 var infoMsg;
-var opponentName;
-var roomId;
-var pov = "red";
-var userName = "";
 
 function setup() {
     let canvas = createCanvas(
@@ -30,9 +22,46 @@ function setup() {
     );
     canvas.parent("board");
 
+    board = [
+        "s5t",
+        "1d3c1",
+        "m1l1w1e"
+    ]
 
-    makeGrid(pov);
+    for (let row of board) {
+        let pieces = [];
+        for (let c of row) {
+            if (+c) {
+                for (let i = 0; i < c; i++) {
+                    pieces.push(null);
+                }
+            } else {
+                pieces.push(new Piece(pieces.length, grid.length, "blue", c));
+            }
+        }
 
+        grid.push(pieces);
+    }
+
+    let i = 3;
+    while (i--) {
+        grid.push(Array(7).fill(null));
+    }
+
+    for (let row of board.reverse()) {
+        let pieces = [];
+        for (let c of row.split("").reverse().join("")) {
+            if (+c) {
+                for (let i = 0; i < c; i++) {
+                    pieces.push(null);
+                }
+            } else {
+                pieces.push(new Piece(pieces.length, grid.length, "red", c));
+            }
+        }
+
+        grid.push(pieces);
+    }
 
     for (let x = 0; x < gridWidth; x++) {
         for (let y = 0; y < gridHeight; y++) {
@@ -44,34 +73,17 @@ function setup() {
 
     textSize(gridLength * .5);
     infoMsg = document.querySelector("h1");
-    opponentName =  eval(document.getElementById("o-name").innerHTML);
-    roomId = +document.getElementById("rid").innerHTML;
-
-
-    userName = prompt("Enter your display name");
-
-    if (userName == opponentName) {
-        alert("Name is already taken by opponent");
-        window.location.href = window.location.href;
-    }
-
-    socket.emit("register", roomId, userName);
 }
 
 
 function draw() {
-
-    if (opponentName) {
-        infoMsg.innerHTML = (turn ? "Your" : opponentName + "'s") + " turn";
-    } else {
-        infoMsg.innerHTML = "Waiting for opponent...";
-    }
+    infoMsg.innerHTML = (redsTurn ? "Red" : "Blue") + "'s turn";
 
     clear();
     drawGridLines();
     drawRiver();
-    drawTrap(pov);
-    drawDen(pov);
+    drawTrap();
+    drawDen();
 
     for (let row of grid) {
         for (let piece of row) {
@@ -108,7 +120,6 @@ function draw() {
 }
 
 function mouseClicked() {
-    if (!turn) return;
     if (mouseX && mouseY && mouseX < canvasWidth && mouseY < canvasHeight) {
         if (selected)
             selected.selected = false;
@@ -120,22 +131,23 @@ function mouseClicked() {
 
         if (selected) {
             if (selected.canGo(x, y) && (!piece || selected.canEat(piece))) {
-                socket.emit("move", roomId, opponentName, [6 - selected.x, 8 - selected.y], [6 - x, 8 - y]);
-
+                // Eat piece
                 grid[selected.y][selected.x] = null;
                 selected.moveTo(x, y);
                 grid[y][x] = selected;
-                turn = !turn;
+                redsTurn = !redsTurn;
 
-                if (isDen(x, y) && y == 0) {
-                    socket.emit("won", roomId, userName);
+                if (isDen(x, y) && y == redsTurn * 8) {
+                    setTimeout(() => {
+                        alert((redsTurn ? "Blue" : "Red") + " won! Reload page to play again");
+                    }, 500);
                 }
             }
             selected = null;
 
-        } else if (piece && pov != piece.color) {
+        } else if (piece && ["blue", "red"][redsTurn ? 1:0] != piece.color) {
             // Invalid selection
-            console.log(turn, 'invalid');
+            console.log(redsTurn, 'invalid');
         } else if (piece) {
             // Select piece
             piece.selected = true;
@@ -148,45 +160,6 @@ function mouseClicked() {
             selected.selected = false;
 
         selected = null;
-    }
-}
-
-function makeGrid(pov) {
-    grid.length = 0;
-
-    for (let row of board) {
-        let pieces = [];
-        for (let c of row) {
-            if (+c) {
-                for (let i = 0; i < c; i++) {
-                    pieces.push(null);
-                }
-            } else {
-                pieces.push(new Piece(pieces.length, grid.length, pov == "red" ? "blue" : "red", c));
-            }
-        }
-
-        grid.push(pieces);
-    }
-
-    let i = 3;
-    while (i--) {
-        grid.push(Array(7).fill(null));
-    }
-
-    for (let row of [...board].reverse()) {
-        let pieces = [];
-        for (let c of row.split("").reverse().join("")) {
-            if (+c) {
-                for (let i = 0; i < c; i++) {
-                    pieces.push(null);
-                }
-            } else {
-                pieces.push(new Piece(pieces.length, grid.length, pov, c));
-            }
-        }
-
-        grid.push(pieces);
     }
 }
 
@@ -222,10 +195,9 @@ function drawRiver() {
     );
 }
 
-function drawTrap(pov) {
-    let rv = pov == "red" ? "blue" : "red";
+function drawTrap() {
     for (let [x, y] of traps) {
-        fill(y > 6 ? pov : rv);
+        fill((y > 6) * 255, 0, (y < 2) * 255);
         text(
             "陷阱",
             x * gridLength,
@@ -234,10 +206,9 @@ function drawTrap(pov) {
     }
 }
 
-function drawDen(pov) {
-    let rv = pov == "red" ? "blue" : "red";
+function drawDen() {
     for (let [x, y] of dens) {
-        fill(y > 6 ? pov : rv);
+        fill((y > 6) * 255, 0, (y < 2) * 255);
         text(
             "兽穴",
             x * gridLength,
@@ -262,5 +233,3 @@ function isDen(x, y) {
 function inRange(min, max, n) {
     return min <= n && n <= max;
 }
-
-
