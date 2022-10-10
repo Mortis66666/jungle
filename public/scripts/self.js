@@ -9,6 +9,7 @@ const dens = [
     [3, 0],
     [3, 8]
 ];
+const moveSound = new Audio("/moveSound.wav");
 
 
 var selected = null;
@@ -144,6 +145,8 @@ function mouseClicked() {
                 grid[y][x] = selected;
                 redsTurn = !redsTurn;
 
+                playSound(moveSound);
+
                 if (isDen(x, y) && y == redsTurn * 8) {
                     setTimeout(() => {
 
@@ -227,6 +230,11 @@ function drawDen() {
             (y + .7) * gridLength
         )
     }
+}
+
+function playSound(sound) {
+    sound.currentTime = 0;
+    sound.play();
 }
 
 function isRiver(x, y) {

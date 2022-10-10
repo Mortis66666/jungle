@@ -14,6 +14,7 @@ const board = [
     "1d3c1",
     "m1l1w1e"
 ];
+const moveSound = new Audio("/moveSound.wav");
 
 var selected = null;
 var turn = false;
@@ -126,6 +127,8 @@ function mouseClicked() {
                 selected.moveTo(x, y);
                 grid[y][x] = selected;
                 turn = !turn;
+
+                playSound(moveSound);
 
                 if (isDen(x, y) && y == 0) {
                     socket.emit("won", roomId, userName);
@@ -246,6 +249,11 @@ function drawDen(pov) {
     }
 }
 
+function playSound(sound) {
+    sound.currentTime = 0;
+    sound.play();
+}
+
 function isRiver(x, y) {
     return inRange(3, 5, y) && [1, 2, 4, 5].includes(x);
 }
@@ -262,5 +270,3 @@ function isDen(x, y) {
 function inRange(min, max, n) {
     return min <= n && n <= max;
 }
-
-

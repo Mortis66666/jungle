@@ -35,6 +35,8 @@ socket.on("move", (id, name, from, to) => {
         grid[fy][fx] = null;
         grid[ty][tx] = selected;
         turn = !turn;
+
+        playSound(moveSound);
     }
 })
 
