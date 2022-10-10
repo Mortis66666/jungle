@@ -47,5 +47,7 @@ socket.on("won", (id, name) => {
         }
 
         alert(`${name} won!`);
+        document.getElementById("pop-up").style.display = "block";
+        d
     }
 })

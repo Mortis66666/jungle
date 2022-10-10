@@ -111,11 +111,18 @@ function draw() {
 
     if (!red) {
         setTimeout(() => {
-            alert("Blue won! Reload page to play again");
+            
+            document.getElementById("dialog").style.display = "block";
+            document.getElementById("close-dialog").style.display = "block";
+            document.getElementById("winning-html").innerHTML = "<h1> Blue won! Reload page to play again </h1>";
+            document.getElementById("board").style.display = "none";
         }, 500);
     } else if (!blue) {
         setTimeout(() => {
-            alert("Red won! Reload page to play again");
+            document.getElementById("dialog").style.display = "block";
+            document.getElementById("close-dialog").style.display = "block";
+            document.getElementById("winning-html").innerHTML = "<h1> Red won! Reload page to play again </h1>";
+            document.getElementById("board").style.display = "none";
         }, 500);
     }
 }
@@ -142,7 +149,12 @@ function mouseClicked() {
 
                 if (isDen(x, y) && y == redsTurn * 8) {
                     setTimeout(() => {
-                        alert((redsTurn ? "Blue" : "Red") + " won! Reload page to play again");
+
+
+                        document.getElementById("dialog").style.display = "block";
+                        document.getElementById("close-dialog").style.display = "block";
+                        document.getElementById("winning-html").innerHTML = "<h1> " + (redsTurn ? "Blue" : "Red") + " won! Reload page to play again </h1>";
+                        document.getElementById("board").style.display = "none";
                     }, 500);
                 }
             }
