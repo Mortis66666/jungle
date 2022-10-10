@@ -13,9 +13,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => {
-    res.render("game.ejs", { name: `"Ali"`, id: 69420 });
-})
 
 app.get("/self", (req, res) => {
     res.render("self.ejs");
@@ -43,6 +40,10 @@ app.route("/game/:id")
 
 app.get("/create", (req, res) => {
     res.render("create.ejs");
+})
+
+app.get("*", (req, res) => {
+    res.status(404).send("<h1>Nice try, nothing here</h1>");
 })
 
 io.on("connection", socket => {
