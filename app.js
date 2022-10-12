@@ -41,6 +41,12 @@ app.route("/game/:id")
 app.get("/create", (req, res) => {
     res.render("create.ejs");
 })
+app.get("/", (req, res) => {
+    res.send(`<button onclick='window.location.href = "create";'> Create </button>
+    <button onclick='window.location.href = "Self";'> Self </button>
+    <input type = "text" id="input" placeholder = "Join Code">
+    <button onclick = 'if (document.getElementById("input").value) {window.location.href = "game/"+document.getElementById("input").value;}'> Join </button>`);
+})
 
 app.get("*", (req, res) => {
     res.status(404).send("<h1>Nice try, nothing here</h1>");
