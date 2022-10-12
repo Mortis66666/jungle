@@ -34,6 +34,8 @@ if (screen.height > ((screenWidth / (7.5 + 7.5 + 7.5 - 7.5 - 7.5 - 7.5 + 7.5)) *
 
 const gridLength = Math.floor(gridLengthI);
 
+document.querySelector(":root").style.setProperty('--length', gridLength + 'px');
+
 
 
 
