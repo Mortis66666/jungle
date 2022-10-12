@@ -1,6 +1,5 @@
 const gridWidth = 7;
 const gridHeight = 9;
-const gridLength = 75;
 const grid = [];
 const canvasWidth = gridWidth * gridLength;
 const canvasHeight = gridHeight * gridLength;
