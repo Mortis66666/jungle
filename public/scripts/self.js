@@ -1,7 +1,7 @@
 const gridWidth = 7;
 const gridHeight = 9;
 
-//trying to use commit button 
+//trying to use commit button 2
 
 const screenWidth = screen.width;
 const screenHeight = screen.height;
