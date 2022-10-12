@@ -1,44 +1,5 @@
 const gridWidth = 7;
 const gridHeight = 9;
-const screenWidth = screen.width;
-if (screen.height > ((screenWidth / (7.5 + 7.5 + 7.5 - 7.5 - 7.5 - 7.5 + 7.5)) * gridHeight)) {
-    //screen height is favourable
-    console.log("favourable");
-    var gridLengthI = screenWidth / (7.5 + 7.5 + 7.5 - 7.5 - 7.5 - 7.5 + 7.5);
-
-} else {
-    //screen height not favourable
-    console.log("favourable2");
-
-    
-    var screensize = "no";
-    var divide = 7.5;
-    while (screensize == "no") {
-        // lim jh
-        console.log("favourable3");
-        divide = divide + 1; 
-        if (screen.height > ((screenWidth / divide) * gridHeight)) {
-            
-            screensize = "good";
-            
-            //lim jh
-            console.log("favrourble5");
-        } 
-    }
-    var gridLengthI = screenWidth / divide;
-}
-
-
-
-
-
-const gridLength = Math.floor(gridLengthI);
-
-document.querySelector(":root").style.setProperty('--length', gridLength + 'px');
-
-
-
-
 const grid = [];
 const canvasWidth = gridWidth * gridLength;
 const canvasHeight = gridHeight * gridLength;
