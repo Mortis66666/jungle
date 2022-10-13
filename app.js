@@ -13,6 +13,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 
+app.get("/", (req, res) => {
+    res.render("home.ejs");
+})
 
 app.get("/self", (req, res) => {
     res.render("self.ejs");
@@ -40,12 +43,6 @@ app.route("/game/:id")
 
 app.get("/create", (req, res) => {
     res.render("create.ejs");
-})
-app.get("/", (req, res) => {
-    res.send(`<button onclick='window.location.href = "create";'> Create </button>
-    <button onclick='window.location.href = "Self";'> Self </button>
-    <input type = "text" id="input" placeholder = "Join Code">
-    <button onclick = 'if (document.getElementById("input").value) {window.location.href = "game/"+document.getElementById("input").value;}'> Join </button>`);
 })
 
 app.get("*", (req, res) => {

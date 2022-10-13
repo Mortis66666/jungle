@@ -1,55 +1,32 @@
 const gridWidth = 7;
 const gridHeight = 9;
-
-
-
-//trying to use commit button 2
-
 const screenWidth = screen.width;
 const screenHeight = screen.height;
-
-
+var gridLengthI;
+//#region 
 if (screenWidth > 650) {
     if (screenHeight > 910) {
-        var gridLengthI = 90;
+        gridLengthI = 90;
     } else {
-        var gridLengthI = 75;
+        gridLengthI = 75;
     }
 } else if (screenWidth > 550) {
     if (screenHeight > 767) {
-        var gridLengthI = 75;
+        gridLengthI = 75;
     } else {
-        var gridLengthI = 75;
+        gridLengthI = 75;
     }
 } else if (screenWidth > 300) {
     if (screenHeight > 450) {
-        var gridLengthI = 45;
+        gridLengthI = 45;
     } else {
-        var gridLengthI = 75;
+        gridLengthI = 75;
     }
 } else {
-    var gridLengthI2 = 15;
-    console.log("1")
+    gridLengthI2 = 15;
 }
-
-
-
-//const gridLengthI2 = 15, 45, 75, 90;
-const gridLength = gridLengthI;//gridLengthI; //gridLengthI;//Math.floor(gridLengthI);
-
-document.querySelector(":root").style.setProperty('--length', gridLength + 'px');
-
-
-
-
-
-
-
-
-
-
-
-
+//#endregion
+const gridLength = gridLengthI;
 const grid = [];
 const canvasWidth = gridWidth * gridLength;
 const canvasHeight = gridHeight * gridLength;
@@ -72,6 +49,8 @@ var opponentName;
 var roomId;
 var pov = "red";
 var userName = "";
+
+document.querySelector(":root").style.setProperty('--length', gridLength + 'px');
 
 function setup() {
     let canvas = createCanvas(
