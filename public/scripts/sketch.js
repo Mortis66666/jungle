@@ -49,6 +49,7 @@ var opponentName;
 var roomId;
 var pov = "red";
 var userName = "";
+var someoneWon = false;
 
 document.querySelector(":root").style.setProperty('--length', gridLength + 'px');
 
@@ -90,6 +91,8 @@ function setup() {
 
 function draw() {
 
+    if (someoneWon) return;
+
     if (opponentName) {
         infoMsg.innerHTML = (turn ? "Your" : opponentName + "'s") + " turn";
     } else {
@@ -125,19 +128,21 @@ function draw() {
         }
     }
 
+    let name = null;
+
     if (!red) {
-        setTimeout(() => {
-            alert("Blue won! Reload page to play again");
-        }, 500);
+        name = pov == "red" ? opponentName : "You";
     } else if (!blue) {
-        setTimeout(() => {
-            alert("Red won! Reload page to play again");
-        }, 500);
+        name = pov == "red" ? "You" : opponentName;
+    }
+
+    if (name) {
+        win(name, "killing every opponent's pieces");
     }
 }
 
 function mouseClicked() {
-    if (!turn) return;
+    if (!turn || someoneWon) return;
     if (mouseX && mouseY && mouseX < canvasWidth && mouseY < canvasHeight) {
         if (selected)
             selected.selected = false;
@@ -159,7 +164,7 @@ function mouseClicked() {
                 playSound(moveSound);
 
                 if (isDen(x, y) && y == 0) {
-                    socket.emit("won", roomId, userName);
+                    socket.emit("won", roomId, userName, "entering the den");
                 }
             }
             selected = null;
@@ -275,6 +280,12 @@ function drawDen(pov) {
             (y + .7) * gridLength
         )
     }
+}
+
+function win(name, reason) {
+    someoneWon = true;
+    alert(`${name} won by ${reason}!`);
+    // TODO add popup
 }
 
 function playSound(sound) {

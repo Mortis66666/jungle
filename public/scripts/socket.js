@@ -40,14 +40,8 @@ socket.on("move", (id, name, from, to) => {
     }
 })
 
-socket.on("won", (id, name) => {
+socket.on("won", (id, name, reason) => {
     if (id == roomId) {
-        if (name == userName) {
-            name = "You";
-        }
-
-        alert(`${name} won!`);
-        document.getElementById("pop-up").style.display = "block";
-        d
+        win(name, reason);
     }
 })
