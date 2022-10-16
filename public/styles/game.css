@@ -72,10 +72,10 @@
     background-color: rgb(148, 153, 148);
 
     position: fixed;
-    height: 100vh;
+    height: 100%;
     width: 100%;
-
-    margin: -181px 0px 0px 0px;
+    top: 0px;
+    left: 0px;
     display: block;
 }
 
