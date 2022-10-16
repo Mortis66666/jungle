@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "node test.js",
-    "start": "nodemon app.js"
+    "start": "nodemon -e css,ejs"
   },
   "keywords": [],
   "author": "",
