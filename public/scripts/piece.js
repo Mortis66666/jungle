@@ -113,6 +113,8 @@ class Piece {
     }
 
     moveTo(x, y) {
+        highlightSquares = [[this.x, this.y], [x, y]];
+
         this.x = x;
         this.y = y;
     }

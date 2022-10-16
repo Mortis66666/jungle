@@ -40,6 +40,7 @@ const moveSound = new Audio("/moveSound.wav");
 var selected = null;
 var redsTurn = true;
 var infoMsg;
+var highlightSquares = [];
 
 document.querySelector(":root").style.setProperty('--length', gridLength + 'px');
 
@@ -110,6 +111,7 @@ function draw() {
     clear();
     drawGridLines();
     drawRiver();
+    drawHighlightedSquares();
     drawTrap();
     drawDen();
 
@@ -235,6 +237,17 @@ function drawRiver() {
         4 * gridLength, 3 * gridLength,
         2 * gridLength, 3 * gridLength
     );
+}
+
+function drawHighlightedSquares() {
+    fill(156, 221, 236);
+
+    for (let [x, y] of highlightSquares) {
+        rect(
+            x * gridLength, y * gridLength,
+            gridLength, gridLength
+        )
+    }
 }
 
 function drawTrap() {

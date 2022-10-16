@@ -50,6 +50,7 @@ var roomId;
 var pov = "red";
 var userName = "";
 var someoneWon = false;
+var highlightSquares = [];
 
 document.querySelector(":root").style.setProperty('--length', gridLength + 'px');
 
@@ -97,6 +98,7 @@ function draw() {
     clear();
     drawGridLines();
     drawRiver();
+    drawHighlightedSquares();
     drawTrap(pov);
     drawDen(pov);
 
@@ -251,6 +253,17 @@ function drawRiver() {
         4 * gridLength, 3 * gridLength,
         2 * gridLength, 3 * gridLength
     );
+}
+
+function drawHighlightedSquares() {
+    fill(156, 221, 236);
+
+    for (let [x, y] of highlightSquares) {
+        rect(
+            x * gridLength, y * gridLength,
+            gridLength, gridLength
+        )
+    }
 }
 
 function drawTrap(pov) {
