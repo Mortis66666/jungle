@@ -90,8 +90,8 @@ io.on("connection", socket => {
         }
     });
 
-    socket.on("won", (id, name) => {
-        io.emit("won", id, name);
+    socket.on("won", (id, name, reason) => {
+        io.emit("won", id, name, reason);
     })
 })
 

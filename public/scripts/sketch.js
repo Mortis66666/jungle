@@ -79,6 +79,9 @@ function setup() {
     opponentName =  eval(document.getElementById("o-name").innerHTML);
     roomId = +document.getElementById("rid").innerHTML;
 
+    document.getElementById("resign").onclick = () => {
+        socket.emit("won", roomId, opponentName, "resignation");
+    }
 }
 
 function draw() {
