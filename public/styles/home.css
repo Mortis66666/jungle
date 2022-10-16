@@ -32,15 +32,16 @@ body {
     
 }
 ::placeholder {
-    
     text-align: center;
     font-size: 20px;
     color: rgb(233, 220, 220);
 }
+
 .div-break {
     height: 10px;
     width: 10%;
 }
+
 .join, .play-self, .create {
     border: none;
     background-color: rgb(73, 61, 61);

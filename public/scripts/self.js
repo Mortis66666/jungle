@@ -140,7 +140,6 @@ function draw() {
 
     if (!red) {
         setTimeout(() => {
-            
             document.getElementById("dialog").style.display = "block";
             document.getElementById("close-dialog").style.display = "block";
             document.getElementById("winning-html").innerHTML = "<h1> Blue won! Reload page to play again </h1>";
