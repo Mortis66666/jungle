@@ -14,173 +14,23 @@
     <script src="/scripts/piece.js"></script>
     <script src="/scripts/socket.js"></script>
 </head>
-<style>
-    .dialog1 {
-        background-color: rgb(207, 181, 181);
-        width: 50%;
-        height: 20vh;
-        border-radius: 25px;
-        margin: 0 auto;
-        overflow-y: hidden;
-        transform: translateY(-200px);
-        animation-name: none;
-        animation-duration: 2s;
-        
-        animation-fill-mode: forwards;
-        
-        
-        
-
-        
-    }
-    @keyframes dialog1-open {
-        from {
-            
-        }
-
-        to {
-            
-            transform: translateY(10px);
-        }
-    }
-    @keyframes dialog1-close {
-        from {
-            transform: translateY(10px);
-        }
-
-
-
-        to {
-            
-            
-            
-            
-
-
-            
-            
-            
-            transform: translateY(-210px);
-        }
-    }
-    
-
-
-    
-    .awaiting-screen {
-        background-color: rgb(148, 153, 148);
-        
-        position: fixed;
-        height: 100vh;
-        width: 100%;
-
-        
-
-        margin: -181px 0px 0px 0px;
-        display: block;
-    }
-
-
-    .awaiting-screen-1 {
-        padding: 70px;
-        text-align: center;
-    }
-    * {
-        margin: 0;
-        padding: 0;
-
-    }
-    #username {
-        background-color: rgb(103, 94, 94);
-        font-size: 30px;
-
-
-
-
-        border-radius: 50px;
-        height: 85px;
-        width: 500px;
-        
-        
-        text-align: center;
-        color: rgb(201, 190, 190);
-    }
-    .div-break {
-        height: 132px;
-        width: 10px;
-    }
-
-    
-    
-    #join {
-        font-size: 25px;
-        height: 50px;
-        width: 300px;
-        border-radius: 36px;
-        background-color: rgb(121, 112, 112);
-        color: rgb(211, 198, 198);
-
-    }
-    #ready-button {
-        display: none;
-    }
-    .dialog1-1 {
-        
-    }
-</style>
-<script>
-    function join1() {
-        register();
-    }
-    function dialogopen() {
-        var d = document.getElementById("dialog1");
-        
-        
-
-        setTimeout(function() {
-            d.style.animationName = "dialog1-open";
-        }, 6000);
-        //d.style.animationName = "dialog1-close";
-    }
-    function usernameNotValid(msg) {
-        document.getElementById("usernamenotvalid").innerHTML = `<p> ` + msg +` </p>`;
-    }
-    function ready() {
-        
-        
-        
-
-        
-
-
-        socket.emit("ready", roomId, userName); 
-        
-        
-        document.getElementById("ready-button").style.display = "none";
-    }
-
-</script>
 <body>
     <h1></h1>
     <div class="dialog1" id="dialog1">
         <h1> h1 </h1>
     </div> 
-    <div class="awaiting-screen" id="awaiting-screen">limjh
+    <div class="awaiting-screen" id="awaiting-screen">
         <div class="div-break"></div>
         <div class="awaiting-screen-1">
             <input type="text" placeholder="Username" name="username" id="username">
 
-
-
-
             <div class="div-break" style="height: 20px;"></div>
             <div id="usernamenotvalid"></div>
-            <button id="join" onclick="join1()"> Join </button>
+            <button id="join" onclick="register()"> Join </button>
             <h1> Join Code: <%= id %> </h1>
             <h1> Waiting for the second player to join ... </h1>
             <button id="ready-button" onclick="ready()"> Ready </button>
         </div>
-        
     </div>
     <div id="board"></div>
 

@@ -53,6 +53,8 @@ var someoneWon = false;
 
 document.querySelector(":root").style.setProperty('--length', gridLength + 'px');
 
+
+
 function setup() {
     let canvas = createCanvas(
         gridWidth * gridLength,
@@ -78,29 +80,6 @@ function setup() {
     roomId = +document.getElementById("rid").innerHTML;
 
 }
-    //userName = 
-    
-function register() { 
-    var username = document.getElementById("username");
-
-    if (username.value != "") {
-        if (username.value != opponentName) {
-            
-            userName = username.value;
-            socket.emit("register", roomId, userName);
-            //registered
-        } else {
-            usernameNotValid("The name is taken by opponent, try again. ");
-            
-        }
-    } else {
-        usernameNotValid("Do not leave the username blank, try again. ");
-        
-    }
-
-}
-
-
 
 function draw() {
 
@@ -304,6 +283,41 @@ function win(name, reason) {
 function playSound(sound) {
     sound.currentTime = 0;
     sound.play();
+}
+
+function register() { 
+    var username = document.getElementById("username");
+
+    if (username.value != "") {
+        if (username.value != opponentName) {
+            userName = username.value;
+            socket.emit("register", roomId, userName);
+            //registered
+        } else {
+            usernameNotValid("The name is taken by opponent, try again. ");
+        }
+    } else {
+        usernameNotValid("Do not leave the username blank, try again. ");
+    }
+}
+
+function dialogopen() {
+    var d = document.getElementById("dialog1");
+    
+    setTimeout(function() {
+        d.style.animationName = "dialog1-open";
+    }, 6000);
+    //d.style.animationName = "dialog1-close";
+}
+
+function usernameNotValid(msg) {
+    document.getElementById("usernamenotvalid").innerHTML = `<p> ` + msg +` </p>`;
+}
+
+function ready() {
+    socket.emit("ready", roomId, userName); 
+    
+    document.getElementById("ready-button").style.display = "none";
 }
 
 function isRiver(x, y) {

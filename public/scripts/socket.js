@@ -10,7 +10,7 @@ socket.on("join", (id, name) => {
 })
 
 
-socket.on("start", (id) => {
+socket.on("start", id => {
     console.log("start");
     if (id == roomId) {
         console.log("start2");

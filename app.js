@@ -53,13 +53,11 @@ io.on("connection", socket => {
     console.log("A socket connected");
 
     socket.on("register", async (id, userName) => {
-        let doc3 = await utils.find(+id);
+        let doc = await utils.find(+id);
 
-        if (doc3.players.length == 2) {
+        if (doc.players.length == 2) {
             console.log(userName + " is trying to access " + id + " that is full. ");
-
         } else {
-            
             console.log(`${userName} joined room ${id}`);
 
             await utils.addPlayer(id, userName);
@@ -73,7 +71,7 @@ io.on("connection", socket => {
                 let i = utils.randInt(0, 1);
                 io.emit("red", id, doc.players[i]);
                 io.emit("blue", id, doc.players[1-i]);
-            }   
+            }
             
         }
     });
@@ -87,11 +85,11 @@ io.on("connection", socket => {
         console.log(name + " in " + id + " is ready");
         await utils.startingValue(id, name);
         
-        let doc2 = await utils.find(+id);
-        if (doc2.start.length == 2) {
+        let doc = await utils.find(+id);
+        if (doc.start.length == 2) {
             console.log("Both players are ready");
             io.emit("start", id);
-        } else if (doc2.start.length != 1) {
+        } else if (doc.start.length != 1) {
             console.log("Check your server");
         }
     });
