@@ -23,7 +23,7 @@ if (screenWidth > 650) {
         gridLengthI = 75;
     }
 } else {
-    gridLengthI2 = 15;
+    gridLengthI = 15;
 }
 //#endregion
 const gridLength = gridLengthI;
@@ -77,16 +77,29 @@ function setup() {
     opponentName =  eval(document.getElementById("o-name").innerHTML);
     roomId = +document.getElementById("rid").innerHTML;
 
+}
+    //userName = 
+    
+function register() { 
+    var username = document.getElementById("username");
 
-    userName = prompt("Enter your display name");
-
-    if (userName == opponentName) {
-        alert("Name is already taken by opponent");
-        window.location.href = window.location.href;
+    if (username.value != "") {
+        if (username.value != opponentName) {
+            
+            userName = username.value;
+            socket.emit("register", roomId, userName);
+            //registered
+        } else {
+            usernameNotValid("The name is taken by opponent, try again. ");
+            
+        }
+    } else {
+        usernameNotValid("Do not leave the username blank, try again. ");
+        
     }
 
-    socket.emit("register", roomId, userName);
 }
+
 
 
 function draw() {

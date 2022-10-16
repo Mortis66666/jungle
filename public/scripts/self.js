@@ -23,7 +23,7 @@ if (screenWidth > 650) {
         gridLengthI = 75;
     }
 } else {
-    gridLengthI2 = 15;
+    gridLengthI = 15;
 }
 //#endregion
 const gridLength = gridLengthI;
