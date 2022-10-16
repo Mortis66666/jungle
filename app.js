@@ -41,10 +41,6 @@ app.route("/game/:id")
         }
     })
 
-app.get("/create", (req, res) => {
-    res.render("create.ejs");
-})
-
 app.get("*", (req, res) => {
     res.status(404).send("<h1>Nice try, nothing here</h1>");
 })
