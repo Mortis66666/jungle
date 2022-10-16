@@ -14,7 +14,8 @@ async function createGame(id) {
 
         await rooms.insertOne({
             _id: id,
-            players: []
+            players: [],
+            start: []
         });
 
         return id;
@@ -29,6 +30,21 @@ async function find(id) {
 
         return await rooms.findOne({ _id: id });
     } finally {
+    }
+}
+
+
+async function startingValue(id, player) {
+    try {
+        const rooms = client.db("db").collection("rooms");
+        await rooms.updateOne({ _id: id }, {
+            $push: {
+                start: player
+            }
+        });
+
+    } finally {
+
     }
 }
 
@@ -48,5 +64,6 @@ module.exports = {
     randInt: randInt,
     createGame: createGame,
     find: find,
-    addPlayer: addPlayer
+    addPlayer: addPlayer,
+    startingValue: startingValue
 }

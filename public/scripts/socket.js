@@ -5,6 +5,18 @@ socket.on("join", (id, name) => {
     console.log(id, name);
     if (id == roomId && opponentName === undefined)
         opponentName = name;
+        
+        document.getElementById("ready-button").style.display = "block";
+})
+
+
+socket.on("start", (id) => {
+    console.log("start");
+    if (id == roomId) {
+        console.log("start2");
+        document.getElementById("board").style.display = "block";
+        document.getElementById("awaiting-screen").style.display = "none";
+    }
 })
 
 socket.on("red", (id, name) => {
