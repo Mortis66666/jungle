@@ -293,6 +293,10 @@ function register() {
             userName = username.value;
             socket.emit("register", roomId, userName);
             //registered
+            
+            document.getElementById("username").style.display = "none";
+            
+            document.getElementById("join").style.display = "none"; 
         } else {
             usernameNotValid("The name is taken by opponent, try again. ");
         }
