@@ -21,7 +21,6 @@
 
 #board {
     border: 5px solid black;
-    display: none;
 
     width: calc(var(--length) * var(--width));
     height: calc(var(--length) * var(--height));

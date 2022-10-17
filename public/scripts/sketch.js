@@ -96,9 +96,9 @@ function draw() {
     }
 
     clear();
-    drawGridLines();
     drawRiver();
     drawHighlightedSquares();
+    drawGridLines();
     drawTrap(pov);
     drawDen(pov);
 

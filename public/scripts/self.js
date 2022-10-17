@@ -109,9 +109,9 @@ function draw() {
     infoMsg.innerHTML = (redsTurn ? "Red" : "Blue") + "'s turn";
 
     clear();
-    drawGridLines();
     drawRiver();
     drawHighlightedSquares();
+    drawGridLines();
     drawTrap();
     drawDen();
 
