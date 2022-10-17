@@ -42,7 +42,7 @@ body {
     width: 10%;
 }
 
-.join, .play-self, .create {
+.btn {
     border: none;
     background-color: rgb(73, 61, 61);
     font-size: 30px;
@@ -50,4 +50,12 @@ body {
     color: rgb(234, 223, 223);
     padding: 10px;
     align-items: center;
+}
+
+.btn:hover {
+    color: yellow;
+}
+
+#src {
+    font-size: 15px;
 }

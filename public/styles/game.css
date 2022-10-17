@@ -108,16 +108,28 @@
     width: 10px;
 }
 
-#join {
+.btn {
     font-size: 25px;
     height: 50px;
     width: 300px;
     border-radius: 36px;
     background-color: rgb(121, 112, 112);
     color: rgb(211, 198, 198);
+}
 
+.btn:hover {
+    color: yellow;
 }
 
 #ready-button {
     display: none;
+    font-size: 40px;
+    font-weight: bold;
+    border: 5px solid black;
+    height: 70px;
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
 }

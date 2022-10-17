@@ -17,17 +17,17 @@
         <input type = "text" id="input" class="joincode" placeholder = "Join Code">
         
         <div class="div-break"></div>
-        <button class="join" onclick = 'if (document.getElementById("input").value) {window.location.href = "/game/"+document.getElementById("input").value;}'> Join </button>
+        <button class="btn" onclick = 'if (document.getElementById("input").value) {window.location.href = "/game/"+document.getElementById("input").value;}'> Join </button>
         <div class="div-break"></div>
         <form id="id" method="POST" action="" >
             <input type="hidden" id="id" value="">
-            <button class="create" onclick="create()"> Create </button>
+            <button class="btn" onclick="create()"> Create new game </button>
         </form>
         <div class="div-break"></div>
-        <button class="play-self" onclick='window.location.href = "self";'> Play with your self </button>
+        <button class="btn" onclick='window.location.href = "self";'> Play with yourself </button>
         <div style="height: 20vh" class="div-break"></div>
         <a href="https://github.com/Mortis66666/jungle" target="_blank">
-            <button>Source code From GitHub</button>
+            <button class="btn" id="src">Source code From GitHub</button>
         </a>
     </div>
 </body>
