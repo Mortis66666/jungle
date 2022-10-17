@@ -81,7 +81,7 @@ function setup() {
     roomId = +document.getElementById("rid").innerHTML;
 
     document.getElementById("resign").onclick = () => {
-        socket.emit("won", roomId, opponentName, "resignation");
+        if (!someoneWon) socket.emit("won", roomId, opponentName, "resignation");
     }
 }
 
