@@ -48,10 +48,10 @@
     animation-duration: 2s;
 
     animation-fill-mode: forwards;
-
     
-    
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @keyframes dialog1-open {
@@ -138,4 +138,9 @@
     top: 50%;
     left: 50%;
     translate: -50% -50%;
+}
+
+#dialog-message {
+    padding: 10px;
+    font-size: 35px;
 }

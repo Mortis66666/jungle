@@ -49,7 +49,7 @@ var opponentName;
 var roomId;
 var pov = "red";
 var userName = "";
-var someoneWon = false;
+var gameOver = false;
 var highlightSquares = [];
 
 document.querySelector(":root").style.setProperty('--length', gridLength + 'px');
@@ -81,13 +81,13 @@ function setup() {
     roomId = +document.getElementById("rid").innerHTML;
 
     document.getElementById("resign").onclick = () => {
-        if (!someoneWon) socket.emit("won", roomId, opponentName, "resignation");
+        socket.emit("won", roomId, opponentName, "resignation");
     }
 }
 
 function draw() {
 
-    if (someoneWon) return;
+    if (gameOver) return;
 
     if (opponentName) {
         infoMsg.innerHTML = (turn ? "Your" : opponentName + "'s") + " turn";
@@ -139,7 +139,7 @@ function draw() {
 }
 
 function mouseClicked() {
-    if (!turn || someoneWon) return;
+    if (!turn || gameOver) return;
     if (mouseX && mouseY && mouseX < canvasWidth && mouseY < canvasHeight) {
         if (selected)
             selected.selected = false;
@@ -291,9 +291,9 @@ function drawDen(pov) {
 }
 
 function win(name, reason) {
-    someoneWon = true;
-    alert(`${name} won by ${reason}!`);
-    // TODO add popup
+    document.getElementById("resign").style.display = "none";
+    gameOver = true;
+    dialogopen(`${name} won by ${reason}!`, name == userName ? "green" : "red", "white", 7000);
 }
 
 function playSound(sound) {
@@ -321,25 +321,18 @@ function register() {
     }
 }
 
-function dialogopen(duration, msg, colour) {
+function dialogopen(msg, colour, textColor, duration) {
+    let dialog = document.getElementById("dialog1");
+    let dialogMsg = document.getElementById("dialog-message");
+    dialog.style.backgroundColor = colour;
+    dialog.style.animationName = "dialog1-open";
     
+    dialogMsg.innerHTML = msg;
+    dialogMsg.style.color = textColor;
 
-
-
-
-    
-    //lim jh
-
-
-    
-    document.getElementById("dialog1").innerHTML = msg;
-    document.getElementById("dialog1").style.backgroundColor = colour;
-    var d = document.getElementById("dialog1");
-    d.style.animationName = "dialog1-open";
-    setTimeout(function() {
-        d.style.animationName = "dialog1-close";
+    setTimeout(() => {
+        dialog.style.animationName = "dialog1-close";
     }, duration);
-    
 }
 
 function usernameNotValid(msg) {
