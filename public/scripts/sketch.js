@@ -321,13 +321,25 @@ function register() {
     }
 }
 
-function dialogopen() {
-    var d = document.getElementById("dialog1");
+function dialogopen(duration, msg, colour) {
     
+
+
+
+
+    
+    //lim jh
+
+
+    
+    document.getElementById("dialog1").innerHTML = msg;
+    document.getElementById("dialog1").style.backgroundColor = colour;
+    var d = document.getElementById("dialog1");
+    d.style.animationName = "dialog1-open";
     setTimeout(function() {
-        d.style.animationName = "dialog1-open";
-    }, 6000);
-    //d.style.animationName = "dialog1-close";
+        d.style.animationName = "dialog1-close";
+    }, duration);
+    
 }
 
 function usernameNotValid(msg) {
