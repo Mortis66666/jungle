@@ -3,13 +3,14 @@ let socket = io();
 
 socket.on("join", (id, name) => {
     console.log(id, name);
-    if (id == roomId && opponentName === undefined)
+    if (id == roomId && opponentName === undefined) {
         opponentName = name;
         
         document.getElementById("ready-button").style.display = "block";
 
         document.getElementById("join-2").style.display = "none";
         document.getElementById("join-3").style.display = "none";
+    }
 })
 
 

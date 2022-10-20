@@ -77,6 +77,7 @@ function setup() {
     }
 
     textSize(gridLength * .5);
+
     infoMsg = document.querySelector("h1");
     dialog = document.getElementById("dialog1");
     opponentName =  eval(document.getElementById("o-name").innerHTML);
@@ -89,12 +90,21 @@ function setup() {
     document.getElementById("dialog-close").onclick = () => {
         dialog.style.animationName = "dialog1-close";
     }
+
+    console.log('%cWARNING', 'font-size:10em;color:red;');
+    console.log(`%cThis is a browser feature intended for developers.
+    Do NOT copy and paste something here if you do not understand it.
+
+    You can learn more at:
+    https://en.wikipedia.org/wiki/Self-XSS`,
+    'font-size:2em');
 }
 
 function draw() {
 
     if (gameOver) {
         infoMsg.innerHTML = "Game over";
+        return;
     }
 
     if (opponentName) {
@@ -319,8 +329,14 @@ function register() {
             //registered
             
             document.getElementById("username").style.display = "none";
-            
             document.getElementById("join").style.display = "none"; 
+
+            if (opponentName) {
+                document.getElementById("ready-button").style.display = "block";
+
+                document.getElementById("join-2").style.display = "none";
+                document.getElementById("join-3").style.display = "none";
+            }
         } else {
             usernameNotValid("The name is taken by opponent, try again. ");
         }
