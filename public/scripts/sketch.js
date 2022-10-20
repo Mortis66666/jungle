@@ -45,6 +45,7 @@ const moveSound = new Audio("/moveSound.wav");
 var selected = null;
 var turn = false;
 var infoMsg;
+var dialog;
 var opponentName;
 var roomId;
 var pov = "red";
@@ -77,17 +78,24 @@ function setup() {
 
     textSize(gridLength * .5);
     infoMsg = document.querySelector("h1");
+    dialog = document.getElementById("dialog1");
     opponentName =  eval(document.getElementById("o-name").innerHTML);
     roomId = +document.getElementById("rid").innerHTML;
 
     document.getElementById("resign").onclick = () => {
         socket.emit("won", roomId, opponentName, "resignation");
     }
+
+    document.getElementById("dialog-close").onclick = () => {
+        dialog.style.animationName = "dialog1-close";
+    }
 }
 
 function draw() {
 
-    if (gameOver) return;
+    if (gameOver) {
+        infoMsg.innerHTML = "Game over";
+    }
 
     if (opponentName) {
         infoMsg.innerHTML = (turn ? "Your" : opponentName + "'s") + " turn";
@@ -293,7 +301,7 @@ function drawDen(pov) {
 function win(name, reason) {
     document.getElementById("resign").style.display = "none";
     gameOver = true;
-    dialogopen(`${name} won by ${reason}!`, name == userName ? "green" : "red", "white", 7000);
+    openDialog(`${name} won by ${reason}!`, name == userName ? "green" : "red", "white", 7000);
 }
 
 function playSound(sound) {
@@ -321,8 +329,7 @@ function register() {
     }
 }
 
-function dialogopen(msg, colour, textColor, duration) {
-    let dialog = document.getElementById("dialog1");
+function openDialog(msg, colour, textColor, duration) {
     let dialogMsg = document.getElementById("dialog-message");
     dialog.style.backgroundColor = colour;
     dialog.style.animationName = "dialog1-open";

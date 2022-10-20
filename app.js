@@ -68,7 +68,6 @@ io.on("connection", socket => {
                 io.emit("red", id, doc.players[i]);
                 io.emit("blue", id, doc.players[1-i]);
             }
-            
         }
     });
 

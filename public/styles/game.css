@@ -144,3 +144,12 @@
     padding: 10px;
     font-size: 35px;
 }
+
+#dialog-close {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 12px 16px;
+    border-radius: 20px;
+}
