@@ -329,7 +329,8 @@ function register() {
             //registered
             
             document.getElementById("username").style.display = "none";
-            document.getElementById("join").style.display = "none"; 
+            document.getElementById("join").style.display = "none";
+            document.getElementById("usernamenotvalid").style.display = "none";
 
             if (opponentName) {
                 document.getElementById("ready-button").style.display = "block";
