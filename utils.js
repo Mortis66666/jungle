@@ -15,12 +15,28 @@ async function createGame(id) {
         await rooms.insertOne({
             _id: id,
             players: [],
-            start: []
+            start: [],
+            lastUpdate: Date.now()
         });
 
         return id;
 
     } finally {
+    }
+}
+
+async function update(id) {
+    try {
+        const rooms = client.db("db").collection("rooms");
+
+        await rooms.updateOne({ _id: id }, {
+            $set: {
+                lastUpdate: Date.now()
+            }
+        });
+
+    } finally {
+        console.log(`Room ${id} updated`);
     }
 }
 
@@ -63,6 +79,7 @@ async function addPlayer(id, player) {
 module.exports = {
     randInt: randInt,
     createGame: createGame,
+    update: update,
     find: find,
     addPlayer: addPlayer,
     startingValue: startingValue

@@ -68,12 +68,16 @@ io.on("connection", socket => {
                 io.emit("red", id, doc.players[i]);
                 io.emit("blue", id, doc.players[1-i]);
             }
+
+            await utils.update(id);
         }
     });
 
-    socket.on("move", (id, name, from, to) => {
+    socket.on("move", async (id, name, from, to) => {
         console.log(`From: ${from}; To: ${to}`);
         io.emit("move", id, name, from, to);
+
+        await utils.update(id);
     });
 
     socket.on("ready", async (id, name) => {
@@ -87,10 +91,14 @@ io.on("connection", socket => {
         } else if (doc.start.length != 1) {
             console.log("Check your server");
         }
+
+        await utils.update(id);
     });
 
-    socket.on("won", (id, name, reason) => {
+    socket.on("won", async (id, name, reason) => {
         io.emit("won", id, name, reason);
+
+        await utils.update(id);
     })
 })
 
