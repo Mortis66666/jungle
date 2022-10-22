@@ -100,6 +100,12 @@ function setup() {
         return true;
     }
 
+    let name = localStorage.getItem("name");
+
+    if (name) {
+        document.getElementById("username").value = name;
+    }
+
 
     console.log('%cWARNING', 'font-size:10em;color:red;');
     console.log(`%cThis is a browser feature intended for developers.
@@ -336,6 +342,7 @@ function register() {
     if (username.value != "") {
         if (username.value != opponentName) {
             userName = username.value;
+            localStorage.setItem("name", userName);
             document.getElementById("rematch-username").value = userName;
             socket.emit("register", roomId, userName);
             //registered
