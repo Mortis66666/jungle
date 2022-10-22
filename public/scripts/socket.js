@@ -3,13 +3,21 @@ let socket = io();
 
 socket.on("join", (id, name) => {
     console.log(id, name);
-    if (id == roomId && opponentName === undefined) {
+    if (id == roomId && opponentName === null) {
         opponentName = name;
         
         document.getElementById("ready-button").style.display = "block";
 
         document.getElementById("join-2").style.display = "none";
         document.getElementById("join-3").style.display = "none";
+        console.log("received opponentname (i have register)");
+    }
+})
+
+socket.on("first", (id, name) => {
+    if (id == roomId && userName == "") {
+        console.log("received opponentname (i havent register)");
+        opponentName = name;
     }
 })
 
@@ -58,5 +66,12 @@ socket.on("move", (id, name, from, to) => {
 socket.on("won", (id, name, reason) => {
     if (id == roomId) {
         win(name, reason);
+    }
+})
+
+socket.on("rematch", (id, name, gameId) => {
+    if (id == roomId && name == userName) {
+        console.log("rematch");
+        openDialog(`${opponentName} has offered a <a href="${gameId}">rematch</a>`, ["orange", "yellow", "lightgreen"][randInt(0, 2)], "black", 10000);
     }
 })

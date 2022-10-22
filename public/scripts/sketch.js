@@ -91,6 +91,16 @@ function setup() {
         dialog.style.animationName = "dialog1-close";
     }
 
+    let rematchForm = document.getElementById("rematch-form");
+
+    rematchForm.action = `/game/${randInt(1000, 9999)}`;
+
+    rematchForm.onsubmit = () => {
+        socket.emit("rematch", roomId, opponentName, document.getElementById("rematch-form").action);
+        return true;
+    }
+
+
     console.log('%cWARNING', 'font-size:10em;color:red;');
     console.log(`%cThis is a browser feature intended for developers.
     Do NOT copy and paste something here if you do not understand it.
@@ -310,6 +320,7 @@ function drawDen(pov) {
 
 function win(name, reason) {
     document.getElementById("resign").style.display = "none";
+    document.getElementById("rematch").classList.remove("hide");
     gameOver = true;
     openDialog(`${name} won by ${reason}!`, name == userName ? "green" : "red", "white", 7000);
 }
@@ -325,6 +336,7 @@ function register() {
     if (username.value != "") {
         if (username.value != opponentName) {
             userName = username.value;
+            document.getElementById("rematch-username").value = userName;
             socket.emit("register", roomId, userName);
             //registered
             
@@ -364,9 +376,13 @@ function usernameNotValid(msg) {
 }
 
 function ready() {
-    socket.emit("ready", roomId, userName); 
+    socket.emit("ready", roomId, userName);
     
     document.getElementById("ready-button").style.display = "none";
+}
+
+function randInt(min, max) {
+    return Math.floor(Math.random()*(max-min+1)+min);
 }
 
 function isRiver(x, y) {

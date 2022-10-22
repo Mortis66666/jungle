@@ -17,6 +17,13 @@
 <body>
     <h1></h1>
     <button id="resign">Resign</button>
+
+    <form action="/game/<%= id %>" method="post" id="rematch-form">
+        <input type="hidden" name="username" value="" id="rematch-username">
+        <input type="submit" id="rematch" class="hide" value="Rematch">
+    </form>
+
+
     <div class="dialog1" id="dialog1">
         <p id="dialog-message"></p>
         <span id="dialog-close">✖</span>

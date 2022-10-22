@@ -26,7 +26,7 @@ app.route("/game/:id")
         let id = +req.params.id;
         await utils.createGame(id);
 
-        res.render("game.ejs", { name: null, id: id });
+        res.render("game.ejs", { name: "null", id: id });
     })
     .get(async (req, res) => {
         let id = +req.params.id;
@@ -37,7 +37,15 @@ app.route("/game/:id")
         } else if (game.players.length == 2 ) {
             res.send("<h1>Game room full</h1>");
         } else {
-            res.render("game.ejs", { id: id, name: `"${game.players[0]}"` });
+            let player = game.players[0];
+
+            if (player === undefined) {
+                player = "null";
+            } else {
+                player = `"${player}"`;
+            }
+
+            res.render("game.ejs", { id: id, name: player });
         }
     })
 
@@ -61,6 +69,7 @@ io.on("connection", socket => {
 
             if (doc.players.length == 1) {
                 console.log(id + ": One person have joined. ");
+                io.emit("first", id, userName);
             } else if (doc.players.length == 2) {
                 io.emit("join", id, userName);
 
@@ -99,6 +108,12 @@ io.on("connection", socket => {
         io.emit("won", id, name, reason);
 
         await utils.update(id);
+    })
+
+    socket.on("rematch", (id, name, gameId) => {
+        io.emit("rematch", id, name, gameId);
+
+        console.log(`Room ${id} offers rematch`);
     })
 })
 
