@@ -39,7 +39,9 @@ const moveSound = new Audio("/moveSound.wav");
 
 var selected = null;
 var redsTurn = true;
+var gameOver = false;
 var infoMsg;
+var dialog;
 var highlightSquares = [];
 
 document.querySelector(":root").style.setProperty('--length', gridLength + 'px');
@@ -101,11 +103,24 @@ function setup() {
     }
 
     textSize(gridLength * .5);
+
+
     infoMsg = document.querySelector("h1");
+    dialog = document.getElementById("dialog1");
+
+    document.getElementById("dialog-close").onclick = () => {
+        dialog.style.animationName = "dialog1-close";
+    }
 }
 
 
 function draw() {
+
+    if (gameOver) {
+        infoMsg.innerHTML = "Game over";
+        return;
+    }
+
     infoMsg.innerHTML = (redsTurn ? "Red" : "Blue") + "'s turn";
 
     clear();
@@ -140,22 +155,20 @@ function draw() {
 
     if (!red) {
         setTimeout(() => {
-            document.getElementById("dialog").style.display = "block";
-            document.getElementById("close-dialog").style.display = "block";
-            document.getElementById("winning-html").innerHTML = "<h1> Blue won! Reload page to play again </h1>";
-            document.getElementById("board").style.display = "none";
+            openDialog("Blue won! Reload page to play again", "blue", "white", 7000);
+            gameOver = true;
         }, 500);
     } else if (!blue) {
         setTimeout(() => {
-            document.getElementById("dialog").style.display = "block";
-            document.getElementById("close-dialog").style.display = "block";
-            document.getElementById("winning-html").innerHTML = "<h1> Red won! Reload page to play again </h1>";
-            document.getElementById("board").style.display = "none";
+            openDialog("Red won! Reload page to play again", "red", "white", 7000);
+            gameOver = true;
         }, 500);
     }
 }
 
 function mouseClicked() {
+    if (gameOver) return;
+
     if (mouseX && mouseY && mouseX < canvasWidth && mouseY < canvasHeight) {
         if (selected)
             selected.selected = false;
@@ -177,12 +190,8 @@ function mouseClicked() {
 
                 if (isDen(x, y) && y == redsTurn * 8) {
                     setTimeout(() => {
-
-
-                        document.getElementById("dialog").style.display = "block";
-                        document.getElementById("close-dialog").style.display = "block";
-                        document.getElementById("winning-html").innerHTML = "<h1> " + (redsTurn ? "Blue" : "Red") + " won! Reload page to play again </h1>";
-                        document.getElementById("board").style.display = "none";
+                        openDialog((redsTurn ? "Blue" : "Red") + " won! Reload page to play again", (redsTurn ? "blue" : "red"), "white", 7000);
+                        gameOver = true;
                     }, 500);
                 }
             }
@@ -274,6 +283,19 @@ function drawDen() {
 function playSound(sound) {
     sound.currentTime = 0;
     sound.play();
+}
+
+function openDialog(msg, colour, textColor, duration) {
+    let dialogMsg = document.getElementById("dialog-message");
+    dialog.style.backgroundColor = colour;
+    dialog.style.animationName = "dialog1-open";
+    
+    dialogMsg.innerHTML = msg;
+    dialogMsg.style.color = textColor;
+
+    setTimeout(() => {
+        dialog.style.animationName = "dialog1-close";
+    }, duration);
 }
 
 function isRiver(x, y) {
