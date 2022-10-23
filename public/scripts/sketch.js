@@ -368,8 +368,7 @@ function register() {
 function openDialog(msg, colour, textColor, duration) {
     let dialogMsg = document.getElementById("dialog-message");
     
-    dialog.style.display = "block";
-
+    dialog.style.display = "flex";
     dialog.style.backgroundColor = colour;
     dialog.style.animationName = "dialog1-open";
     
