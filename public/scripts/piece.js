@@ -5,9 +5,20 @@ const pieceVals = [
 
 const pieceDisplay = +(localStorage.getItem("pieceDisplay") || 0);
 
+const imageUrl = [
+    "https://upload.wikimedia.org/wikipedia/commons/5/57/Doushouqi-rat.svg",
+    "https://upload.wikimedia.org/wikipedia/commons/5/59/Doushouqi-cat.svg",
+    "https://upload.wikimedia.org/wikipedia/commons/8/8a/Doushouqi-dog.svg",
+    "https://upload.wikimedia.org/wikipedia/commons/9/93/Doushouqi-wolf.svg",
+    "https://upload.wikimedia.org/wikipedia/commons/1/1a/Doushouqi-leopard.svg",
+    "https://upload.wikimedia.org/wikipedia/commons/4/4b/Doushouqi-tiger.svg",
+    "https://upload.wikimedia.org/wikipedia/commons/c/c0/Doushouqi-lion.svg",
+    "https://upload.wikimedia.org/wikipedia/commons/0/0e/Doushouqi-elephant.svg"
+];
+
 const displays = [
     ["鼠", "猫", "狗", "狼", "豹", "虎", "狮", "象"],
-    ["🐭", "🐱", "🐶", "🐺", "🐆", "🐯", "🦁", "🐘"]
+    imageUrl
 ]
 
 const pieceName = {};
@@ -33,6 +44,10 @@ class Piece {
         this.val = pieceVals.findIndex(e => e == type);
         this.selected = false;
         this.name = pieceName[type];
+
+        if (pieceDisplay == 1) {
+            this.name = loadImage(this.name);
+        }
     }
 
 
@@ -62,21 +77,30 @@ class Piece {
             gridLength * .7
         );
 
-        let xtra = 0;
-        let ytra = 0;
+        // let xtra = 0;
+        // let ytra = 0;
 
-        if (pieceDisplay == 1) {
-            xtra = -.1;
-            ytra = -.04;
+        // if (pieceDisplay == 1) {
+        //     xtra = -.1;
+        //     ytra = -.04;
+        // }
+
+        if (pieceDisplay == 0) {
+            noStroke();
+            fill(255);
+            text(
+                this.name,
+                this.drawX + gridLength * .25,
+                this.drawY + gridLength * .7
+            );
+        } else if (pieceDisplay == 1) {
+            image(
+                this.name,
+                this.drawX + gridLength * .15,
+                this.drawY + gridLength * .15,
+                gridLength * .7, gridLength * .7
+            );
         }
-
-        noStroke();
-        fill(255);
-        text(
-            this.name,
-            this.drawX + gridLength * (.25 + xtra),
-            this.drawY + gridLength * (.7 + ytra)
-        );
     }
 
     canGo(x, y) {
