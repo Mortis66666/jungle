@@ -3,9 +3,15 @@ const pieceVals = [
     "m", "c", "d", "w", "l", "t", "s", "e"
 ];
 
-const pieceName = {};
+const pieceDisplay = +(localStorage.getItem("pieceDisplay") || 0);
 
-for (let [i, name] of "鼠猫狗狼豹虎狮象".split``.entries()) {
+const displays = [
+    ["鼠", "猫", "狗", "狼", "豹", "虎", "狮", "象"],
+    ["🐭", "🐱", "🐶", "🐺", "🐆", "🐯", "🦁", "🐘"]
+]
+
+const pieceName = {};
+for (let [i, name] of displays[pieceDisplay].entries()) {
     pieceName[pieceVals[i]] = name;
 }
 
@@ -56,13 +62,20 @@ class Piece {
             gridLength * .7
         );
 
+        let xtra = 0;
+        let ytra = 0;
+
+        if (pieceDisplay == 1) {
+            xtra = -.1;
+            ytra = -.04;
+        }
 
         noStroke();
         fill(255);
         text(
             this.name,
-            this.drawX + gridLength * .25,
-            this.drawY + gridLength * .7
+            this.drawX + gridLength * (.25 + xtra),
+            this.drawY + gridLength * (.7 + ytra)
         );
     }
 
