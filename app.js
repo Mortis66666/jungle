@@ -25,6 +25,10 @@ app.get("/settings", (req, res) => {
     res.render("settings.ejs");
 })
 
+app.get("/rules", (req, res) => {
+    res.render("rules.ejs");
+})
+
 app.route("/game/:id")
     .post(async (req, res) => {
         let id = +req.params.id;

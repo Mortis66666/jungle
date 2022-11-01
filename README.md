@@ -1,5 +1,7 @@
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Dou_Shou_Qi_board.svg/350px-Dou_Shou_Qi_board.svg.png)
 
+[Learn how to play](https://doushouqi.herokuapp.com/rules)
+
 <details>
 <summary>Assets source:</summary>
 https://upload.wikimedia.org/wikipedia/commons/5/57/Doushouqi-rat.svg
