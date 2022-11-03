@@ -69,6 +69,7 @@ io.on("connection", socket => {
 
         if (doc.players.length == 2) {
             console.log(userName + " is trying to access " + id + " that is full. ");
+            io.emit("full", id, userName);
         } else {
             console.log(`${userName} joined room ${id}`);
 

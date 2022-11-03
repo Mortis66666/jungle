@@ -30,6 +30,18 @@ socket.on("start", id => {
     }
 })
 
+socket.on("full", (id, name) => {
+    if (id == roomId && name == userName) {
+        document.getElementById("awaiting-screen").style.display = "block";
+        document.getElementById("ready-button").style.display = "none";
+        
+        let join3 = document.getElementById("join-3");
+
+        join3.style.display = "block";
+        join3.innerHTML = "Game room full!"
+    }
+})
+
 socket.on("red", (id, name) => {
     console.log(id, name);
     if (id == roomId && name == userName) {
