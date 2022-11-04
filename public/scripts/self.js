@@ -118,7 +118,6 @@ function draw() {
 
     if (gameOver) {
         infoMsg.innerHTML = "Game over";
-        return;
     }
 
     infoMsg.innerHTML = (redsTurn ? "Red" : "Blue") + "'s turn";
@@ -154,15 +153,11 @@ function draw() {
     }
 
     if (!red) {
-        setTimeout(() => {
-            openDialog("Blue won! Reload page to play again", "blue", "white", 7000);
-            gameOver = true;
-        }, 500);
+        openDialog("Blue won! Reload page to play again", "blue", "white", 7000);
+        gameOver = true;
     } else if (!blue) {
-        setTimeout(() => {
-            openDialog("Red won! Reload page to play again", "red", "white", 7000);
-            gameOver = true;
-        }, 500);
+        openDialog("Red won! Reload page to play again", "red", "white", 7000);
+        gameOver = true;
     }
 }
 
@@ -189,10 +184,8 @@ function mouseClicked() {
                 playSound(moveSound);
 
                 if (isDen(x, y) && y == redsTurn * 8) {
-                    setTimeout(() => {
-                        openDialog((redsTurn ? "Blue" : "Red") + " won! Reload page to play again", (redsTurn ? "blue" : "red"), "white", 7000);
-                        gameOver = true;
-                    }, 500);
+                    openDialog((redsTurn ? "Blue" : "Red") + " won! Reload page to play again", (redsTurn ? "blue" : "red"), "white", 7000);
+                    gameOver = true;
                 }
             }
             selected = null;

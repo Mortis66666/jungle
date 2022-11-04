@@ -120,7 +120,6 @@ function draw() {
 
     if (gameOver) {
         infoMsg.innerHTML = "Game over";
-        return;
     }
 
     if (opponentName) {
