@@ -8,12 +8,14 @@ function randInt(min, max) {
     return Math.floor(Math.random()*(max-min+1)+min);
 }
 
-async function createGame(id) {
+async function createGame(id, quick, public) {
     try {
         const rooms = client.db("db").collection("rooms");
 
         await rooms.insertOne({
             _id: id,
+            quick: quick,
+            public: public,
             players: [],
             start: [],
             lastUpdate: Date.now()
@@ -43,12 +45,18 @@ async function update(id) {
 async function find(id) {
     try {
         const rooms = client.db("db").collection("rooms");
-
         return await rooms.findOne({ _id: id });
     } finally {
     }
 }
 
+async function all() {
+    try {
+        const rooms = client.db("db").collection("rooms");
+        return await rooms.find().toArray();
+    } finally {
+    }
+}
 
 async function startingValue(id, player) {
     try {
@@ -60,7 +68,6 @@ async function startingValue(id, player) {
         });
 
     } finally {
-
     }
 }
 
@@ -76,11 +83,27 @@ async function addPlayer(id, player) {
     }
 }
 
+async function generateId() {
+    try {
+        const rooms = client.db("db").collection("rooms");
+        const availables = [...Array(10000-1000).keys()].map(x => x + 1000);
+
+        for (let room of await all()) {
+            availables.splice(availables.indexOf(room._id), 1);
+        }
+
+        return availables[randInt(0, availables.length - 1)]
+    } finally {
+    }
+}
+
 module.exports = {
     randInt: randInt,
     createGame: createGame,
     update: update,
     find: find,
+    all: all,
     addPlayer: addPlayer,
-    startingValue: startingValue
+    startingValue: startingValue,
+    generateId: generateId
 }

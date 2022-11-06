@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play</title>
+
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/0/0e/Doushouqi-elephant.svg">
+
+    <link rel="stylesheet" href="/styles/home.css">
+    
+    <script src="scripts/play.js"></script>
+</head>
+<body>
+    <div class="box-1">
+        <div style="height: 25vh"></div>
+        <input type = "text" id="input" class="joincode" placeholder = "Join Code">
+        <div class="div-break"></div>
+        <button class="btn" onclick="join()"> Join </button>
+
+        <div class="div-break"></div>
+        <div class="div-break"></div>
+        <div class="div-break"></div>
+
+        <a href="/quick">
+            <button class="btn">Quick pairing</button>
+        </a>
+
+        <div class="div-break"></div>
+
+        <button class="btn" onclick="openPopup()">Create game</button>
+    </div>
+
+    <div id="create-popup">
+        <span id="close" onclick="closePopup()">✖</span>
+        <form action="create" method="post">
+            <select name="public" id="public">
+                <option value="1">Public</option>
+                <option value="0">Private</option>
+            </select>
+
+            <input type="submit" name="submit" id="submit" value="Create">            
+        </form>
+    </div>
+</body>
+</html>

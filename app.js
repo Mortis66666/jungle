@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const server = require("http").createServer(app);
 const { Server } = require("socket.io");
+const { generateId } = require('./utils.js');
 const io = new Server(server);
 const utils = require("./utils.js");
 
@@ -21,6 +22,10 @@ app.get("/self", (req, res) => {
     res.render("self.ejs");
 })
 
+app.get("/play", (req, res) => {
+    res.render("play.ejs");
+})
+
 app.get("/settings", (req, res) => {
     res.render("settings.ejs");
 })
@@ -29,33 +34,47 @@ app.get("/rules", (req, res) => {
     res.render("rules.ejs");
 })
 
-app.route("/game/:id")
-    .post(async (req, res) => {
-        let id = +req.params.id;
-        await utils.createGame(id);
+app.get("/game/:id", async (req, res) => {
+    let id = +req.params.id;
+    let game = await utils.find(id);
 
-        res.render("game.ejs", { name: "null", id: id });
-    })
-    .get(async (req, res) => {
-        let id = +req.params.id;
-        let game = await utils.find(id);
+    if (!game) {
+        res.send("<h1>This game room doesn't exist lol</h1>");
+    } else if (game.players.length == 2 ) {
+        res.send("<h1>Game room full</h1>");
+    } else {
+        let player = game.players[0];
 
-        if (!game) {
-            res.send("<h1>This game room doesn't exist lol</h1>");
-        } else if (game.players.length == 2 ) {
-            res.send("<h1>Game room full</h1>");
+        if (player === undefined) {
+            player = "null";
         } else {
-            let player = game.players[0];
-
-            if (player === undefined) {
-                player = "null";
-            } else {
-                player = `"${player}"`;
-            }
-
-            res.render("game.ejs", { id: id, name: player });
+            player = `"${player}"`;
         }
-    })
+
+        res.render("game.ejs", { id: id, name: player });
+    }
+})
+
+app.get("/quick", async (req, res) => {
+    for (let room of await utils.all()) {
+        if (room.quick && room.players.length < 2) {
+            return res.redirect("/game/" + room._id);
+        }
+    }
+
+    let id = await utils.generateId();
+    await utils.createGame(id, 1, 0);
+    res.redirect("/game/" + id);
+})
+
+app.post("/create", async (req, res) => {
+    let public = +req.params.public;
+    let id = await utils.generateId();
+
+    await utils.createGame(id, 0, public);
+
+    res.redirect("/game/" + id);
+})
 
 app.get("*", (req, res) => {
     res.status(404).send("<h1>Nice try, nothing here</h1>");
