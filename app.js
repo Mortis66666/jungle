@@ -68,7 +68,7 @@ app.get("/quick", async (req, res) => {
 })
 
 app.post("/create", async (req, res) => {
-    let public = +req.params.public;
+    let public = +req.body.public;
     let id = await utils.generateId();
 
     await utils.createGame(id, 0, public);
