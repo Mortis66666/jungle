@@ -1,38 +1,36 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 const server = require("http").createServer(app);
 const { Server } = require("socket.io");
-const { generateId } = require('./utils.js');
+const { generateId } = require("./utils.js");
 const io = new Server(server);
 const utils = require("./utils.js");
-
 
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
     res.render("home.ejs");
-})
+});
 
 app.get("/self", (req, res) => {
     res.render("self.ejs");
-})
+});
 
 app.get("/play", (req, res) => {
     res.render("play.ejs");
-})
+});
 
 app.get("/settings", (req, res) => {
     res.render("settings.ejs");
-})
+});
 
 app.get("/rules", (req, res) => {
     res.render("rules.ejs");
-})
+});
 
 app.get("/game/:id", async (req, res) => {
     let id = +req.params.id;
@@ -40,7 +38,7 @@ app.get("/game/:id", async (req, res) => {
 
     if (!game) {
         res.send("<h1>This game room doesn't exist lol</h1>");
-    } else if (game.players.length == 2 ) {
+    } else if (game.players.length == 2) {
         res.send("<h1>Game room full</h1>");
     } else {
         let player = game.players[0];
@@ -53,7 +51,7 @@ app.get("/game/:id", async (req, res) => {
 
         res.render("game.ejs", { id: id, name: player });
     }
-})
+});
 
 app.get("/quick", async (req, res) => {
     for (let room of await utils.all()) {
@@ -65,7 +63,7 @@ app.get("/quick", async (req, res) => {
     let id = await utils.generateId();
     await utils.createGame(id, 1, 0);
     res.redirect("/game/" + id);
-})
+});
 
 app.post("/create", async (req, res) => {
     let public = +req.body.public;
@@ -74,11 +72,11 @@ app.post("/create", async (req, res) => {
     await utils.createGame(id, 0, public);
 
     res.redirect("/game/" + id);
-})
+});
 
 app.get("*", (req, res) => {
     res.status(404).send("<h1>Nice try, nothing here</h1>");
-})
+});
 
 io.on("connection", socket => {
     console.log("A socket connected");
@@ -87,7 +85,9 @@ io.on("connection", socket => {
         let doc = await utils.find(+id);
 
         if (doc.players.length == 2) {
-            console.log(userName + " is trying to access " + id + " that is full. ");
+            console.log(
+                userName + " is trying to access " + id + " that is full. "
+            );
             io.emit("full", id, userName);
         } else {
             console.log(`${userName} joined room ${id}`);
@@ -103,7 +103,7 @@ io.on("connection", socket => {
 
                 let i = utils.randInt(0, 1);
                 io.emit("red", id, doc.players[i]);
-                io.emit("blue", id, doc.players[1-i]);
+                io.emit("blue", id, doc.players[1 - i]);
             }
 
             await utils.update(id);
@@ -120,7 +120,7 @@ io.on("connection", socket => {
     socket.on("ready", async (id, name) => {
         console.log(name + " in " + id + " is ready");
         await utils.startingValue(id, name);
-        
+
         let doc = await utils.find(+id);
         if (doc.start.length == 2) {
             console.log("Both players are ready");
@@ -136,17 +136,15 @@ io.on("connection", socket => {
         io.emit("won", id, name, reason);
 
         await utils.update(id);
-    })
+    });
 
     socket.on("rematch", (id, name, gameId) => {
         io.emit("rematch", id, name, gameId);
 
         console.log(`Room ${id} offers rematch`);
-    })
-})
+    });
+});
 
-
-server.listen(port = process.env.PORT || 3000, () => {
+server.listen((port = process.env.PORT || 3000), () => {
     console.log(`Running server at http://localhost:${port}`);
-})
-
+});

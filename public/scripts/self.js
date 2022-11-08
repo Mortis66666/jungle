@@ -3,7 +3,7 @@ const gridHeight = 9;
 const screenWidth = screen.width;
 const screenHeight = screen.height;
 var gridLengthI;
-//#region 
+//#region
 if (screenWidth > 650) {
     if (screenHeight > 910) {
         gridLengthI = 90;
@@ -44,20 +44,15 @@ var infoMsg;
 var dialog;
 var highlightSquares = [];
 
-document.querySelector(":root").style.setProperty('--length', gridLength + 'px');
+document
+    .querySelector(":root")
+    .style.setProperty("--length", gridLength + "px");
 
 function setup() {
-    let canvas = createCanvas(
-        gridWidth * gridLength,
-        gridHeight * gridLength
-    );
+    let canvas = createCanvas(gridWidth * gridLength, gridHeight * gridLength);
     canvas.parent("board");
 
-    board = [
-        "s5t",
-        "1d3c1",
-        "m1l1w1e"
-    ]
+    board = ["s5t", "1d3c1", "m1l1w1e"];
 
     for (let row of board) {
         let pieces = [];
@@ -102,20 +97,17 @@ function setup() {
         }
     }
 
-    textSize(gridLength * .5);
-
+    textSize(gridLength * 0.5);
 
     infoMsg = document.querySelector("h1");
     dialog = document.getElementById("dialog1");
 
     document.getElementById("dialog-close").onclick = () => {
         dialog.style.animationName = "dialog1-close";
-    }
+    };
 }
 
-
 function draw() {
-
     if (gameOver) {
         infoMsg.innerHTML = "Game over";
     }
@@ -153,7 +145,12 @@ function draw() {
     }
 
     if (!red) {
-        openDialog("Blue won! Reload page to play again", "blue", "white", 7000);
+        openDialog(
+            "Blue won! Reload page to play again",
+            "blue",
+            "white",
+            7000
+        );
         gameOver = true;
     } else if (!blue) {
         openDialog("Red won! Reload page to play again", "red", "white", 7000);
@@ -165,8 +162,7 @@ function mouseClicked() {
     if (gameOver) return;
 
     if (mouseX && mouseY && mouseX < canvasWidth && mouseY < canvasHeight) {
-        if (selected)
-            selected.selected = false;
+        if (selected) selected.selected = false;
 
         let x = Math.floor(mouseX / gridLength);
         let y = Math.floor(mouseY / gridLength);
@@ -184,92 +180,70 @@ function mouseClicked() {
                 playSound(moveSound);
 
                 if (isDen(x, y) && y == redsTurn * 8) {
-                    openDialog((redsTurn ? "Blue" : "Red") + " won! Reload page to play again", (redsTurn ? "blue" : "red"), "white", 7000);
+                    openDialog(
+                        (redsTurn ? "Blue" : "Red") +
+                            " won! Reload page to play again",
+                        redsTurn ? "blue" : "red",
+                        "white",
+                        7000
+                    );
                     gameOver = true;
                 }
             }
             selected = null;
-
-        } else if (piece && ["blue", "red"][redsTurn ? 1:0] != piece.color) {
+        } else if (piece && ["blue", "red"][redsTurn ? 1 : 0] != piece.color) {
             // Invalid selection
-            console.log(redsTurn, 'invalid');
+            console.log(redsTurn, "invalid");
         } else if (piece) {
             // Select piece
             piece.selected = true;
             selected = piece;
         }
-
-
     } else {
-        if (selected)
-            selected.selected = false;
+        if (selected) selected.selected = false;
 
         selected = null;
     }
 }
 
-
 function drawGridLines() {
     stroke(0);
     strokeWeight(1);
     for (let x = 1; x < gridWidth; x++) {
-        line(
-            x * gridLength, 0,
-            x * gridLength, gridHeight * gridLength
-        );
+        line(x * gridLength, 0, x * gridLength, gridHeight * gridLength);
     }
 
     for (let y = 1; y < gridHeight; y++) {
-        line(
-            0, y * gridLength,
-            gridWidth * gridLength, y * gridLength
-        );
+        line(0, y * gridLength, gridWidth * gridLength, y * gridLength);
     }
 }
 
 function drawRiver() {
     fill(56, 175, 205);
-    rect(
-        gridLength, 3 * gridLength,
-        2 * gridLength, 3 * gridLength
-    );
-    
-    rect(
-        4 * gridLength, 3 * gridLength,
-        2 * gridLength, 3 * gridLength
-    );
+    rect(gridLength, 3 * gridLength, 2 * gridLength, 3 * gridLength);
+
+    rect(4 * gridLength, 3 * gridLength, 2 * gridLength, 3 * gridLength);
 }
 
 function drawHighlightedSquares() {
     fill(156, 221, 236);
 
     for (let [x, y] of highlightSquares) {
-        rect(
-            x * gridLength, y * gridLength,
-            gridLength, gridLength
-        )
+        rect(x * gridLength, y * gridLength, gridLength, gridLength);
     }
 }
 
 function drawTrap() {
     for (let [x, y] of traps) {
         fill((y > 6) * 255, 0, (y < 2) * 255);
-        text(
-            "陷阱",
-            x * gridLength,
-            (y + .7) * gridLength
-        )
+        text("陷阱", x * gridLength, (y + 0.7) * gridLength);
     }
 }
 
 function drawDen() {
     for (let [x, y] of dens) {
         fill((y > 6) * 255, 0, (y < 2) * 255);
-        text(
-            "兽穴",
-            x * gridLength,
-            (y + .7) * gridLength
-        )
+        text("兽穴", x * gridLength, (y + 0.7) * gridLength);
     }
 }
 
@@ -280,11 +254,11 @@ function playSound(sound) {
 
 function openDialog(msg, colour, textColor, duration) {
     let dialogMsg = document.getElementById("dialog-message");
-    
+
     dialog.style.display = "flex";
     dialog.style.backgroundColor = colour;
     dialog.style.animationName = "dialog1-open";
-    
+
     dialogMsg.innerHTML = msg;
     dialogMsg.style.color = textColor;
 

@@ -5,7 +5,7 @@ const uri = process.env.uri;
 const client = new MongoClient(uri);
 
 function randInt(min, max) {
-    return Math.floor(Math.random()*(max-min+1)+min);
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 async function createGame(id, quick, public) {
@@ -22,7 +22,6 @@ async function createGame(id, quick, public) {
         });
 
         return id;
-
     } finally {
     }
 }
@@ -31,12 +30,14 @@ async function update(id) {
     try {
         const rooms = client.db("db").collection("rooms");
 
-        await rooms.updateOne({ _id: id }, {
-            $set: {
-                lastUpdate: Date.now()
+        await rooms.updateOne(
+            { _id: id },
+            {
+                $set: {
+                    lastUpdate: Date.now()
+                }
             }
-        });
-
+        );
     } finally {
         console.log(`Room ${id} updated`);
     }
@@ -61,12 +62,14 @@ async function all() {
 async function startingValue(id, player) {
     try {
         const rooms = client.db("db").collection("rooms");
-        await rooms.updateOne({ _id: id }, {
-            $push: {
-                start: player
+        await rooms.updateOne(
+            { _id: id },
+            {
+                $push: {
+                    start: player
+                }
             }
-        });
-
+        );
     } finally {
     }
 }
@@ -74,11 +77,14 @@ async function startingValue(id, player) {
 async function addPlayer(id, player) {
     try {
         const rooms = client.db("db").collection("rooms");
-        await rooms.updateOne({ _id: id }, {
-            $push: {
-                players: player
+        await rooms.updateOne(
+            { _id: id },
+            {
+                $push: {
+                    players: player
+                }
             }
-        });
+        );
     } finally {
     }
 }
@@ -86,13 +92,13 @@ async function addPlayer(id, player) {
 async function generateId() {
     try {
         const rooms = client.db("db").collection("rooms");
-        const availables = [...Array(10000-1000).keys()].map(x => x + 1000);
+        const availables = [...Array(10000 - 1000).keys()].map(x => x + 1000);
 
         for (let room of await all()) {
             availables.splice(availables.indexOf(room._id), 1);
         }
 
-        return availables[randInt(0, availables.length - 1)]
+        return availables[randInt(0, availables.length - 1)];
     } finally {
     }
 }
@@ -106,4 +112,4 @@ module.exports = {
     addPlayer: addPlayer,
     startingValue: startingValue,
     generateId: generateId
-}
+};

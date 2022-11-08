@@ -3,4 +3,9 @@ function save() {
     localStorage.setItem("pieceDisplay", pieceDisplay);
 }
 
-document.getElementById("piece-display").children[localStorage.getItem("pieceDisplay")].setAttribute("selected", "");
+document
+    .getElementById("piece-display")
+    .children[localStorage.getItem("pieceDisplay")].setAttribute(
+        "selected",
+        ""
+    );

@@ -1,24 +1,25 @@
 {
-  "name": "jungle",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "node test.js",
-    "start": "nodemon -e css,ejs,js,json"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "dotenv": "^16.0.3",
-    "ejs": "^3.1.8",
-    "express": "^4.18.1",
-    "http": "^0.0.1-security",
-    "mongodb": "^4.10.0",
-    "socket.io": "^4.5.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.19"
-  }
+    "name": "jungle",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "test": "node test.js",
+        "start": "nodemon -e css,ejs,js,json"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^16.0.3",
+        "ejs": "^3.1.8",
+        "express": "^4.18.1",
+        "http": "^0.0.1-security",
+        "mongodb": "^4.10.0",
+        "socket.io": "^4.5.1"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.19",
+        "prettier": "2.7.1"
+    }
 }

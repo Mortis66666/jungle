@@ -1,6 +1,7 @@
 function join() {
     if (document.getElementById("input").value)
-        window.location.href = "/game/" + document.getElementById("input").value;
+        window.location.href =
+            "/game/" + document.getElementById("input").value;
 }
 
 function openPopup() {

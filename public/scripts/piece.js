@@ -1,7 +1,4 @@
-
-const pieceVals = [
-    "m", "c", "d", "w", "l", "t", "s", "e"
-];
+const pieceVals = ["m", "c", "d", "w", "l", "t", "s", "e"];
 
 const pieceDisplay = +(localStorage.getItem("pieceDisplay") || 0);
 
@@ -16,17 +13,12 @@ const imageUrl = [
     "https://upload.wikimedia.org/wikipedia/commons/0/0e/Doushouqi-elephant.svg"
 ];
 
-const displays = [
-    ["鼠", "猫", "狗", "狼", "豹", "虎", "狮", "象"],
-    imageUrl
-]
+const displays = [["鼠", "猫", "狗", "狼", "豹", "虎", "狮", "象"], imageUrl];
 
 const pieceName = {};
 for (let [i, name] of displays[pieceDisplay].entries()) {
     pieceName[pieceVals[i]] = name;
 }
-
-
 
 class Piece {
     constructor(x, y, color, type) {
@@ -50,7 +42,6 @@ class Piece {
         }
     }
 
-
     draw() {
         let vx = this.x * gridLength - this.drawX;
         let vy = this.y * gridLength - this.drawY;
@@ -72,9 +63,9 @@ class Piece {
         strokeWeight(this.selected * 5);
         fill(this.color);
         ellipse(
-            this.drawX + gridLength * .5,
-            this.drawY + gridLength * .5,
-            gridLength * .7
+            this.drawX + gridLength * 0.5,
+            this.drawY + gridLength * 0.5,
+            gridLength * 0.7
         );
 
         // let xtra = 0;
@@ -90,15 +81,16 @@ class Piece {
             fill(255);
             text(
                 this.name,
-                this.drawX + gridLength * .25,
-                this.drawY + gridLength * .7
+                this.drawX + gridLength * 0.25,
+                this.drawY + gridLength * 0.7
             );
         } else if (pieceDisplay == 1) {
             image(
                 this.name,
-                this.drawX + gridLength * .15,
-                this.drawY + gridLength * .15,
-                gridLength * .7, gridLength * .7
+                this.drawX + gridLength * 0.15,
+                this.drawY + gridLength * 0.15,
+                gridLength * 0.7,
+                gridLength * 0.7
             );
         }
     }
@@ -110,7 +102,11 @@ class Piece {
 
         if (this.type == "s" || this.type == "t") {
             if (x == this.x) {
-                for (let i = Math.min(y, this.y) + 1; i < Math.max(y, this.y); i++) {
+                for (
+                    let i = Math.min(y, this.y) + 1;
+                    i < Math.max(y, this.y);
+                    i++
+                ) {
                     let p = grid[i][x];
                     if (!isRiver(x, i) || (p && p.color != this.color)) {
                         return false;
@@ -118,7 +114,11 @@ class Piece {
                 }
                 return true;
             } else if (y == this.y) {
-                for (let i = Math.min(x, this.x) + 1; i < Math.max(x, this.x); i++) {
+                for (
+                    let i = Math.min(x, this.x) + 1;
+                    i < Math.max(x, this.x);
+                    i++
+                ) {
                     let p = grid[y][i];
                     if (!isRiver(i, y) || (p && p.color != this.color)) {
                         return false;
@@ -130,7 +130,6 @@ class Piece {
 
         return Math.abs(x - this.x) + Math.abs(y - this.y) == 1;
     }
-
 
     canEat(piece) {
         if (this.color == piece.color) {
@@ -150,7 +149,10 @@ class Piece {
     }
 
     moveTo(x, y) {
-        highlightSquares = [[this.x, this.y], [x, y]];
+        highlightSquares = [
+            [this.x, this.y],
+            [x, y]
+        ];
 
         this.x = x;
         this.y = y;
@@ -162,11 +164,14 @@ class Piece {
 
         for (let x = 0; x < gridWidth; x++) {
             for (let y = 0; y < gridHeight; y++) {
-                if (this.canGo(x, y) && (!grid[y][x] || this.canEat(grid[y][x]))) {
+                if (
+                    this.canGo(x, y) &&
+                    (!grid[y][x] || this.canEat(grid[y][x]))
+                ) {
                     circle(
-                        (x + .5) * gridLength,
-                        (y + .5) * gridLength,
-                        gridLength * .4
+                        (x + 0.5) * gridLength,
+                        (y + 0.5) * gridLength,
+                        gridLength * 0.4
                     );
                 }
             }

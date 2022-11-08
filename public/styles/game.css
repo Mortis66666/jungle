@@ -33,17 +33,15 @@
     animation-duration: 2s;
 
     animation-fill-mode: forwards;
-    
+
     justify-content: center;
     align-items: center;
-    
-    
+
     display: none;
 }
 
 @keyframes dialog1-open {
     from {
-        
         transform: translateY(-350px);
     }
 
@@ -72,7 +70,6 @@
     left: 0px;
     display: block;
 }
-
 
 .awaiting-screen-1 {
     padding: 70px;
@@ -120,7 +117,7 @@
     font-weight: bold;
     border: 5px solid black;
     height: 70px;
-    
+
     position: absolute;
     top: 50%;
     left: 50%;

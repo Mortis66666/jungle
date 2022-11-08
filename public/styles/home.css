@@ -61,13 +61,13 @@ body {
     top: 50%;
     left: 50%;
     translate: -50% -50%;
-    
+
     width: 40%;
     height: 40%;
     background-color: white;
 
     border-radius: 10px;
-    
+
     display: none;
 }
 
