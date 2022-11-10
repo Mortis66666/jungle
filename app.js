@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const server = require("http").createServer(app);
 const { Server } = require("socket.io");
-const { generateId } = require("./utils.js");
 const io = new Server(server);
 const utils = require("./utils.js");
 
@@ -54,15 +53,15 @@ app.get("/game/:id", async (req, res) => {
 });
 
 app.get("/quick", async (req, res) => {
-    for (let room of await utils.all()) {
-        if (room.quick && room.players.length < 2) {
-            return res.redirect("/game/" + room._id);
-        }
-    }
+    let room = await utils.findQuick();
 
-    let id = await utils.generateId();
-    await utils.createGame(id, 1, 0);
-    res.redirect("/game/" + id);
+    if (room) {
+        res.redirect("/game/" + room._id);
+    } else {
+        let id = await utils.generateId();
+        await utils.createGame(id, 1, 0);
+        res.redirect("/game/" + id);
+    }
 });
 
 app.post("/create", async (req, res) => {

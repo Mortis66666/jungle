@@ -18,6 +18,7 @@ async function createGame(id, quick, public) {
             public: public,
             players: [],
             start: [],
+            timeCreated: Date.now(),
             lastUpdate: Date.now()
         });
 
@@ -47,6 +48,22 @@ async function find(id) {
     try {
         const rooms = client.db("db").collection("rooms");
         return await rooms.findOne({ _id: id });
+    } finally {
+    }
+}
+
+async function findQuick() {
+    try {
+        const room = client.db("db").collection("rooms");
+
+        return await room.findOne(
+            { quick: 1 },
+            {
+                sort: {
+                    timeCreated: -1
+                }
+            }
+        );
     } finally {
     }
 }
@@ -108,6 +125,7 @@ module.exports = {
     createGame: createGame,
     update: update,
     find: find,
+    findQuick: findQuick,
     all: all,
     addPlayer: addPlayer,
     startingValue: startingValue,
