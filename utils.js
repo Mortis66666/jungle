@@ -57,10 +57,15 @@ async function findQuick() {
         const room = client.db("db").collection("rooms");
 
         return await room.findOne(
-            { quick: 1 },
+            {
+                quick: 1,
+                "players.1": {
+                    $exists: false
+                }
+            },
             {
                 sort: {
-                    timeCreated: -1
+                    timeCreated: 1
                 }
             }
         );
