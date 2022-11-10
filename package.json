@@ -1,11 +1,12 @@
 {
     "name": "jungle",
     "version": "1.0.0",
-    "description": "",
+    "description": "Jungle board game",
     "main": "app.js",
     "scripts": {
         "test": "node test.js",
-        "start": "nodemon -e css,ejs,js,json"
+        "start": "nodemon -e css,ejs,js,json",
+        "format": "prettier --write ."
     },
     "keywords": [],
     "author": "",
