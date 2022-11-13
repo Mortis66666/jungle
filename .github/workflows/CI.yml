@@ -1,26 +1,24 @@
 name: Continuous Integration
 
 on:
-    pull_request:
-    push:
-        branches:
-            - master
+  push:
+  pull_request:
+    branches:
+      - master
 
 jobs:
-    prettier:
-        name: Prettier
-        runs-on: windows-latest
-        steps:
-            - uses: actions/checkout@v3
-              with:
-                  ref: ${{ github.head_ref }}
-            - uses: actions/setup-node@v2
-              with:
-                  node-version: "16.x"
-            - run: npm ci
-            - run: npm run format
-            - name: Commit changes
-              uses: stefanzweifel/git-auto-commit-action@v4
-              with:
-                  commit_message: Apply formatting changes
-                  branch: ${{ github.head_ref }}
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.2
+        with:
+          prettier_options: --write .
+          only_changed: True
