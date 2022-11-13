@@ -39,6 +39,7 @@ body {
 }
 
 .btn {
+    width: 8em;
     border: none;
     background-color: rgb(73, 61, 61);
     font-size: 30px;
