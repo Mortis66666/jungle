@@ -101,7 +101,7 @@
 .btn {
     font-size: 25px;
     height: 50px;
-    width: 300px;
+    width: 7em;
     border-radius: 36px;
     background-color: rgb(121, 112, 112);
     color: rgb(211, 198, 198);
@@ -136,4 +136,12 @@
     right: 0;
     padding: 12px 16px;
     border-radius: 20px;
+}
+
+.small-btn {
+    width: 5em;
+    height: 2em;
+    border-radius: 36px;
+    background-color: rgb(121, 112, 112);
+    color: rgb(211, 198, 198);
 }

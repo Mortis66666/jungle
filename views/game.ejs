@@ -1,51 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>斗兽棋</title>
 
-    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/0/0e/Doushouqi-elephant.svg">
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/0/0e/Doushouqi-elephant.svg" />
 
-    <link rel="stylesheet" href="/styles/game.css">
+    <link rel="stylesheet" href="/styles/game.css" />
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/scripts/sketch.js"></script>
     <script src="/scripts/piece.js"></script>
     <script src="/scripts/socket.js"></script>
 </head>
+
 <body>
     <h1></h1>
-    <button id="resign">Resign</button>
+    <button class="small-btn" id="resign">Resign</button>
 
-    <form action="/game/<%= id %>" method="post" id="rematch-form">
-        <input type="hidden" name="username" value="" id="rematch-username">
-        <input type="submit" id="rematch" class="hide" value="Rematch">
-    </form>
-
+    <button class="hide small-btn" id="rematch">Rematch</button>
 
     <div class="dialog1" id="dialog1">
         <p id="dialog-message"></p>
         <span id="dialog-close">✖</span>
-    </div> 
+    </div>
+
     <div class="awaiting-screen" id="awaiting-screen">
         <div class="div-break"></div>
         <div class="awaiting-screen-1">
-            <input type="text" placeholder="Username" name="username" id="username">
+            <input type="text" placeholder="Username" name="username" id="username" />
 
-            <div class="div-break" style="height: 20px;"></div>
+            <div class="div-break" style="height: 20px"></div>
             <div id="usernamenotvalid"></div>
-            <button id="join" class="btn" onclick="register()"> Join </button> 
-            <h1 id="join-2"> Join Code: <%= id %> </h1>
-            <h1 id="join-3"> Waiting for the second player to join ... </h1> 
-            <button id="ready-button" class="btn" onclick="ready()"> Ready </button>
+            <button id="join" class="btn" onclick="register()">Join</button>
+            <h1 id="join-2">Join Code: <%= id %>
+            </h1>
+            <h1 id="join-3">Waiting for the second player to join ...</h1>
+            <button id="ready-button" class="btn" onclick="ready()">
+                Ready
+            </button>
         </div>
     </div>
     <div id="board"></div>
 
-    <p id="o-name" class="hide"><%= name %></p>
-    <p id="rid" class="hide"><%= id %></p>
+    <p id="o-name" class="hide">
+        <%= name %>
+    </p>
+    <p id="rid" class="hide">
+        <%= id %>
+    </p>
 </body>
+
 </html>

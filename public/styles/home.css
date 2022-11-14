@@ -39,7 +39,7 @@ body {
 }
 
 .btn {
-    width: 8em;
+    width: 7em;
     border: none;
     background-color: rgb(73, 61, 61);
     font-size: 30px;
@@ -55,6 +55,7 @@ body {
 
 #src {
     font-size: 15px;
+    width: auto;
 }
 
 #create-popup {

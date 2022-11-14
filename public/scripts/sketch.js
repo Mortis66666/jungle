@@ -82,18 +82,28 @@ function setup() {
         dialog.style.animationName = "dialog1-close";
     };
 
-    let rematchForm = document.getElementById("rematch-form");
+    document.getElementById("rematch").onclick = () => {
+        const settings = {
+            async: true,
+            crossDomain: true,
+            url: "/empty",
+            method: "GET"
+        };
 
-    rematchForm.action = `/game/${randInt(1000, 9999)}`;
+        $.ajax(settings).done(response => {
+            const settings2 = {
+                async: true,
+                crossDomain: true,
+                url: `/create_new?id=${response.id}&quick=0&public=0`,
+                method: "GET"
+            };
 
-    rematchForm.onsubmit = () => {
-        socket.emit(
-            "rematch",
-            roomId,
-            opponentName,
-            document.getElementById("rematch-form").action
-        );
-        return true;
+            $.ajax(settings2).done(r => {
+                let redirect = `/game/${response.id}`;
+                socket.emit("rematch", roomId, opponentName, redirect);
+                window.location.href = redirect;
+            });
+        });
     };
 
     let name = localStorage.getItem("name");
@@ -327,7 +337,6 @@ function register() {
         if (username.value != opponentName) {
             userName = username.value;
             localStorage.setItem("name", userName);
-            document.getElementById("rematch-username").value = userName;
             socket.emit("register", roomId, userName);
             //registered
 

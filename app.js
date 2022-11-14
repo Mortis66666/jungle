@@ -31,14 +31,29 @@ app.get("/rules", (req, res) => {
     res.render("rules.ejs");
 });
 
+app.get("/empty", async (req, res) => {
+    let id = await utils.generateId();
+    res.json({ id: id });
+});
+
+app.get("/create_new", async (req, res) => {
+    let { id, quick, public } = req.query;
+    try {
+        await utils.createGame(+id, +quick, +public);
+        res.sendStatus(200);
+    } catch (e) {
+        res.sendStatus(500);
+    }
+});
+
 app.get("/game/:id", async (req, res) => {
     let id = +req.params.id;
     let game = await utils.find(id);
 
     if (!game) {
-        res.send("<h1>This game room doesn't exist lol</h1>");
+        res.render("msg.ejs", { msg: "This game room doesn't exist lol" });
     } else if (game.players.length == 2) {
-        res.send("<h1>Game room full</h1>");
+        res.render("msg.ejs", { msg: "Game room full" });
     } else {
         let player = game.players[0];
 
@@ -74,7 +89,7 @@ app.post("/create", async (req, res) => {
 });
 
 app.get("*", (req, res) => {
-    res.status(404).send("<h1>Nice try, nothing here</h1>");
+    res.status(404).render("msg.ejs", { msg: "Nice try, nothing here" });
 });
 
 io.on("connection", socket => {

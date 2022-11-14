@@ -23,6 +23,8 @@ async function createGame(id, quick, public) {
         });
 
         return id;
+    } catch (e) {
+        throw new e();
     } finally {
     }
 }

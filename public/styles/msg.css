@@ -1,0 +1,11 @@
+html, body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(137, 134, 134);
+    height: 100%;
+}
+
+#msg {
+    font-size: 10vh;
+}
