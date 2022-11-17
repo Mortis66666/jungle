@@ -332,8 +332,15 @@ function playSound(sound) {
 
 function register() {
     var username = document.getElementById("username");
-
-    if (username.value != "") {
+    if (username.value == "") {
+        usernameNotValid("Do not leave the username blank, try again. ");
+    } else if (username.value.match(/[^\w\s-]/)) {
+        usernameNotValid(
+            "Username can only contain alphanumeric characters, underscores and dashes. "
+        );
+    } else if (username.value.length > 15) {
+        usernameNotValid("Username too long. ");
+    } else {
         if (username.value != opponentName) {
             userName = username.value;
             localStorage.setItem("name", userName);
@@ -353,8 +360,6 @@ function register() {
         } else {
             usernameNotValid("The name is taken by opponent, try again. ");
         }
-    } else {
-        usernameNotValid("Do not leave the username blank, try again. ");
     }
 }
 
